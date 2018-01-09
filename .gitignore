@@ -1,0 +1,4 @@
+wwwroot/*.js
+node_modules
+typings
+.*.s[a-w][a-z]
