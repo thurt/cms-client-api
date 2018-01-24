@@ -1,6 +1,6 @@
 {
   "name": "cms-client-api",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "Unlicense",
   "main": "./dist/api.js",
   "browser": "./dist/api.js",
@@ -18,7 +18,8 @@
     "typescript": "^1.8.10",
     "typings": "^1.0.4"
   },
-  "description": "This generator creates TypeScript/JavaScript client that utilizes [Fetch API](https://fetch.spec.whatwg.org/). The generated Node module can be used in the following environments:",
+  "description":
+    "This generator creates TypeScript/JavaScript client that utilizes [Fetch API](https://fetch.spec.whatwg.org/). The generated Node module can be used in the following environments:",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/thurt/cms-client-api.git"
