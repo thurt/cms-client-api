@@ -15,10 +15,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var url = require("url");
-var isomorphicFetch = require("isomorphic-fetch");
-var assign = require("core-js/library/fn/object/assign");
-var BASE_PATH = "http://localhost".replace(/\/+$/, "");
+var url = require('url');
+var isomorphicFetch = require('isomorphic-fetch');
+var assign = require('core-js/library/fn/object/assign');
+var BASE_PATH = 'http://localhost'.replace(/\/+$/, '');
 var BaseAPI = (function () {
     function BaseAPI(fetch, basePath) {
         if (fetch === void 0) { fetch = isomorphicFetch; }
@@ -29,7 +29,6 @@ var BaseAPI = (function () {
     return BaseAPI;
 }());
 exports.BaseAPI = BaseAPI;
-;
 /**
  * CmsApi - fetch parameter creator
  */
@@ -41,16 +40,16 @@ exports.CmsApiFetchParamCreator = {
      */
     authUser: function (params, options) {
         // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling authUser");
+        if (params['body'] == null) {
+            throw new Error('Missing required parameter body when calling authUser');
         }
         var baseUrl = "/auth/user";
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "POST" }, options);
+        var fetchOptions = assign({}, { method: 'POST' }, options);
         var contentTypeHeader = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
+        contentTypeHeader = { 'Content-Type': 'application/json' };
+        if (params['body']) {
+            fetchOptions.body = JSON.stringify(params['body'] || {});
         }
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -67,16 +66,16 @@ exports.CmsApiFetchParamCreator = {
      */
     createComment: function (params, options) {
         // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling createComment");
+        if (params['body'] == null) {
+            throw new Error('Missing required parameter body when calling createComment');
         }
         var baseUrl = "/comments";
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "POST" }, options);
+        var fetchOptions = assign({}, { method: 'POST' }, options);
         var contentTypeHeader = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
+        contentTypeHeader = { 'Content-Type': 'application/json' };
+        if (params['body']) {
+            fetchOptions.body = JSON.stringify(params['body'] || {});
         }
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -93,16 +92,16 @@ exports.CmsApiFetchParamCreator = {
      */
     createPost: function (params, options) {
         // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling createPost");
+        if (params['body'] == null) {
+            throw new Error('Missing required parameter body when calling createPost');
         }
         var baseUrl = "/posts";
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "POST" }, options);
+        var fetchOptions = assign({}, { method: 'POST' }, options);
         var contentTypeHeader = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
+        contentTypeHeader = { 'Content-Type': 'application/json' };
+        if (params['body']) {
+            fetchOptions.body = JSON.stringify(params['body'] || {});
         }
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -119,16 +118,16 @@ exports.CmsApiFetchParamCreator = {
      */
     createUser: function (params, options) {
         // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling createUser");
+        if (params['body'] == null) {
+            throw new Error('Missing required parameter body when calling createUser');
         }
         var baseUrl = "/users";
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "POST" }, options);
+        var fetchOptions = assign({}, { method: 'POST' }, options);
         var contentTypeHeader = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
+        contentTypeHeader = { 'Content-Type': 'application/json' };
+        if (params['body']) {
+            fetchOptions.body = JSON.stringify(params['body'] || {});
         }
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -144,13 +143,12 @@ exports.CmsApiFetchParamCreator = {
      */
     deleteComment: function (params, options) {
         // verify required parameter "id" is set
-        if (params["id"] == null) {
-            throw new Error("Missing required parameter id when calling deleteComment");
+        if (params['id'] == null) {
+            throw new Error('Missing required parameter id when calling deleteComment');
         }
-        var baseUrl = "/comments/{id}"
-            .replace("{" + "id" + "}", "" + params["id"]);
+        var baseUrl = "/comments/{id}".replace("{" + 'id' + "}", "" + params['id']);
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "DELETE" }, options);
+        var fetchOptions = assign({}, { method: 'DELETE' }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -166,13 +164,12 @@ exports.CmsApiFetchParamCreator = {
      */
     deletePost: function (params, options) {
         // verify required parameter "id" is set
-        if (params["id"] == null) {
-            throw new Error("Missing required parameter id when calling deletePost");
+        if (params['id'] == null) {
+            throw new Error('Missing required parameter id when calling deletePost');
         }
-        var baseUrl = "/posts/{id}"
-            .replace("{" + "id" + "}", "" + params["id"]);
+        var baseUrl = "/posts/{id}".replace("{" + 'id' + "}", "" + params['id']);
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "DELETE" }, options);
+        var fetchOptions = assign({}, { method: 'DELETE' }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -188,13 +185,12 @@ exports.CmsApiFetchParamCreator = {
      */
     deleteUser: function (params, options) {
         // verify required parameter "id" is set
-        if (params["id"] == null) {
-            throw new Error("Missing required parameter id when calling deleteUser");
+        if (params['id'] == null) {
+            throw new Error('Missing required parameter id when calling deleteUser');
         }
-        var baseUrl = "/users/{id}"
-            .replace("{" + "id" + "}", "" + params["id"]);
+        var baseUrl = "/users/{id}".replace("{" + 'id' + "}", "" + params['id']);
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "DELETE" }, options);
+        var fetchOptions = assign({}, { method: 'DELETE' }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -210,13 +206,12 @@ exports.CmsApiFetchParamCreator = {
      */
     getComment: function (params, options) {
         // verify required parameter "id" is set
-        if (params["id"] == null) {
-            throw new Error("Missing required parameter id when calling getComment");
+        if (params['id'] == null) {
+            throw new Error('Missing required parameter id when calling getComment');
         }
-        var baseUrl = "/comments/{id}"
-            .replace("{" + "id" + "}", "" + params["id"]);
+        var baseUrl = "/comments/{id}".replace("{" + 'id' + "}", "" + params['id']);
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "GET" }, options);
+        var fetchOptions = assign({}, { method: 'GET' }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -233,7 +228,7 @@ exports.CmsApiFetchParamCreator = {
     getComments: function (options) {
         var baseUrl = "/comments";
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "GET" }, options);
+        var fetchOptions = assign({}, { method: 'GET' }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -249,13 +244,12 @@ exports.CmsApiFetchParamCreator = {
      */
     getPost: function (params, options) {
         // verify required parameter "id" is set
-        if (params["id"] == null) {
-            throw new Error("Missing required parameter id when calling getPost");
+        if (params['id'] == null) {
+            throw new Error('Missing required parameter id when calling getPost');
         }
-        var baseUrl = "/posts/{id}"
-            .replace("{" + "id" + "}", "" + params["id"]);
+        var baseUrl = "/posts/{id}".replace("{" + 'id' + "}", "" + params['id']);
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "GET" }, options);
+        var fetchOptions = assign({}, { method: 'GET' }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -272,13 +266,12 @@ exports.CmsApiFetchParamCreator = {
      */
     getPostComments: function (params, options) {
         // verify required parameter "id" is set
-        if (params["id"] == null) {
-            throw new Error("Missing required parameter id when calling getPostComments");
+        if (params['id'] == null) {
+            throw new Error('Missing required parameter id when calling getPostComments');
         }
-        var baseUrl = "/posts/{id}/comments"
-            .replace("{" + "id" + "}", "" + params["id"]);
+        var baseUrl = "/posts/{id}/comments".replace("{" + 'id' + "}", "" + params['id']);
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "GET" }, options);
+        var fetchOptions = assign({}, { method: 'GET' }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -294,7 +287,7 @@ exports.CmsApiFetchParamCreator = {
     getPosts: function (options) {
         var baseUrl = "/posts";
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "GET" }, options);
+        var fetchOptions = assign({}, { method: 'GET' }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -310,13 +303,12 @@ exports.CmsApiFetchParamCreator = {
      */
     getUser: function (params, options) {
         // verify required parameter "id" is set
-        if (params["id"] == null) {
-            throw new Error("Missing required parameter id when calling getUser");
+        if (params['id'] == null) {
+            throw new Error('Missing required parameter id when calling getUser');
         }
-        var baseUrl = "/users/{id}"
-            .replace("{" + "id" + "}", "" + params["id"]);
+        var baseUrl = "/users/{id}".replace("{" + 'id' + "}", "" + params['id']);
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "GET" }, options);
+        var fetchOptions = assign({}, { method: 'GET' }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -333,13 +325,12 @@ exports.CmsApiFetchParamCreator = {
      */
     getUserComments: function (params, options) {
         // verify required parameter "id" is set
-        if (params["id"] == null) {
-            throw new Error("Missing required parameter id when calling getUserComments");
+        if (params['id'] == null) {
+            throw new Error('Missing required parameter id when calling getUserComments');
         }
-        var baseUrl = "/users/{id}/comments"
-            .replace("{" + "id" + "}", "" + params["id"]);
+        var baseUrl = "/users/{id}/comments".replace("{" + 'id' + "}", "" + params['id']);
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "GET" }, options);
+        var fetchOptions = assign({}, { method: 'GET' }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -355,7 +346,7 @@ exports.CmsApiFetchParamCreator = {
     isSetup: function (options) {
         var baseUrl = "/is-setup";
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "GET" }, options);
+        var fetchOptions = assign({}, { method: 'GET' }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -372,16 +363,16 @@ exports.CmsApiFetchParamCreator = {
      */
     setup: function (params, options) {
         // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling setup");
+        if (params['body'] == null) {
+            throw new Error('Missing required parameter body when calling setup');
         }
         var baseUrl = "/setup";
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "POST" }, options);
+        var fetchOptions = assign({}, { method: 'POST' }, options);
         var contentTypeHeader = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
+        contentTypeHeader = { 'Content-Type': 'application/json' };
+        if (params['body']) {
+            fetchOptions.body = JSON.stringify(params['body'] || {});
         }
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -397,13 +388,12 @@ exports.CmsApiFetchParamCreator = {
      */
     unPublishPost: function (params, options) {
         // verify required parameter "id" is set
-        if (params["id"] == null) {
-            throw new Error("Missing required parameter id when calling unPublishPost");
+        if (params['id'] == null) {
+            throw new Error('Missing required parameter id when calling unPublishPost');
         }
-        var baseUrl = "/posts/{id}"
-            .replace("{" + "id" + "}", "" + params["id"]);
+        var baseUrl = "/posts/{id}".replace("{" + 'id' + "}", "" + params['id']);
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "PUT" }, options);
+        var fetchOptions = assign({}, { method: 'PUT' }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -420,21 +410,20 @@ exports.CmsApiFetchParamCreator = {
      */
     updateComment: function (params, options) {
         // verify required parameter "id" is set
-        if (params["id"] == null) {
-            throw new Error("Missing required parameter id when calling updateComment");
+        if (params['id'] == null) {
+            throw new Error('Missing required parameter id when calling updateComment');
         }
         // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling updateComment");
+        if (params['body'] == null) {
+            throw new Error('Missing required parameter body when calling updateComment');
         }
-        var baseUrl = "/comments/{id}"
-            .replace("{" + "id" + "}", "" + params["id"]);
+        var baseUrl = "/comments/{id}".replace("{" + 'id' + "}", "" + params['id']);
         var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "PUT" }, options);
+        var fetchOptions = assign({}, { method: 'PUT' }, options);
         var contentTypeHeader = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
+        contentTypeHeader = { 'Content-Type': 'application/json' };
+        if (params['body']) {
+            fetchOptions.body = JSON.stringify(params['body'] || {});
         }
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -941,7 +930,6 @@ var CmsApi = (function (_super) {
     return CmsApi;
 }(BaseAPI));
 exports.CmsApi = CmsApi;
-;
 /**
  * CmsApi - factory interface
  */
