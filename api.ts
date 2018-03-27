@@ -141,1531 +141,1401 @@ export interface ProtobufBoolValue {
 /**
  * service Foo {       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);     }  The JSON representation for `Empty` is empty JSON object `{}`.
  */
-export interface ProtobufEmpty {}
+export interface ProtobufEmpty {
+}
+
+/**
+ * Wrapper message for `string`.  The JSON representation for `StringValue` is JSON string.
+ */
+export interface ProtobufStringValue {
+    /**
+     * The string value.
+     */
+    "value"?: string;
+}
+
+
 
 /**
  * AuthApi - fetch parameter creator
  */
 export const AuthApiFetchParamCreator = {
-  /**
-   *
-   * @summary Authorize as a user to get an access token
-   * @param body
-   */
-  authUser(params: {body: CmsAuthUserRequest}, options?: any): FetchArgs {
-    // verify required parameter "body" is set
-    if (params['body'] == null) {
-      throw new Error('Missing required parameter body when calling authUser');
-    }
-    const baseUrl = `/auth/user`;
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'POST'}, options);
+    /**
+     * 
+     * @summary Authenticate as an existing user to get an access token
+     * @param body 
+     */
+    authUser(params: {  "body": CmsAuthUserRequest; }, options?: any): FetchArgs {
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling authUser");
+        }
+        const baseUrl = `/auth/user`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    contentTypeHeader = {'Content-Type': 'application/json'};
-    if (params['body']) {
-      fetchOptions.body = JSON.stringify(params['body'] || {});
-    }
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
+        let contentTypeHeader: Dictionary<string> = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 };
 
 /**
  * AuthApi - functional programming interface
  */
 export const AuthApiFp = {
-  /**
-   *
-   * @summary Authorize as a user to get an access token
-   * @param body
-   */
-  authUser(
-    params: {body: CmsAuthUserRequest},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsAccessToken> {
-    const fetchArgs = AuthApiFetchParamCreator.authUser(params, options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
+    /**
+     * 
+     * @summary Authenticate as an existing user to get an access token
+     * @param body 
+     */
+    authUser(params: { "body": CmsAuthUserRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsAccessToken> {
+        const fetchArgs = AuthApiFetchParamCreator.authUser(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
 };
 
 /**
  * AuthApi - object-oriented interface
  */
 export class AuthApi extends BaseAPI {
-  /**
-   *
-   * @summary Authorize as a user to get an access token
-   * @param body
-   */
-  authUser(params: {body: CmsAuthUserRequest}, options?: any) {
-    return AuthApiFp.authUser(params, options)(this.fetch, this.basePath);
-  }
-}
+    /**
+     * 
+     * @summary Authenticate as an existing user to get an access token
+     * @param body 
+     */
+    authUser(params: {  "body": CmsAuthUserRequest; }, options?: any) {
+        return AuthApiFp.authUser(params, options)(this.fetch, this.basePath);
+    }
+};
 
 /**
  * AuthApi - factory interface
  */
-export const AuthApiFactory = function(fetch?: FetchAPI, basePath?: string) {
-  return {
-    /**
-     *
-     * @summary Authorize as a user to get an access token
-     * @param body
-     */
-    authUser(params: {body: CmsAuthUserRequest}, options?: any) {
-      return AuthApiFp.authUser(params, options)(fetch, basePath);
-    },
-  };
+export const AuthApiFactory = function (fetch?: FetchAPI, basePath?: string) {
+    return {
+        /**
+         * 
+         * @summary Authenticate as an existing user to get an access token
+         * @param body 
+         */
+        authUser(params: {  "body": CmsAuthUserRequest; }, options?: any) {
+            return AuthApiFp.authUser(params, options)(fetch, basePath);
+        },
+    };
 };
+
 
 /**
  * CommentsApi - fetch parameter creator
  */
 export const CommentsApiFetchParamCreator = {
-  /**
-   *
-   * @summary Create a comment
-   * @param body
-   */
-  createComment(
-    params: {body: CmsCreateCommentRequest},
-    options?: any,
-  ): FetchArgs {
-    // verify required parameter "body" is set
-    if (params['body'] == null) {
-      throw new Error(
-        'Missing required parameter body when calling createComment',
-      );
-    }
-    const baseUrl = `/comments`;
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'POST'}, options);
+    /**
+     * 
+     * @summary Create a comment
+     * @param body 
+     */
+    createComment(params: {  "body": CmsCreateCommentRequest; }, options?: any): FetchArgs {
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling createComment");
+        }
+        const baseUrl = `/comments`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    contentTypeHeader = {'Content-Type': 'application/json'};
-    if (params['body']) {
-      fetchOptions.body = JSON.stringify(params['body'] || {});
-    }
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Delete a comment
-   * @param id
-   */
-  deleteComment(params: {id: number}, options?: any): FetchArgs {
-    // verify required parameter "id" is set
-    if (params['id'] == null) {
-      throw new Error(
-        'Missing required parameter id when calling deleteComment',
-      );
-    }
-    const baseUrl = `/comments/{id}`.replace(`{${'id'}}`, `${params['id']}`);
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'DELETE'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Delete a comment
+     * @param id 
+     */
+    deleteComment(params: {  "id": number; }, options?: any): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling deleteComment");
+        }
+        const baseUrl = `/comments/{id}`
+            .replace(`{${"id"}}`, `${ params["id"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "DELETE" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Get a comment
-   * @param id
-   */
-  getComment(params: {id: number}, options?: any): FetchArgs {
-    // verify required parameter "id" is set
-    if (params['id'] == null) {
-      throw new Error('Missing required parameter id when calling getComment');
-    }
-    const baseUrl = `/comments/{id}`.replace(`{${'id'}}`, `${params['id']}`);
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'GET'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Get a comment
+     * @param id 
+     */
+    getComment(params: {  "id": number; }, options?: any): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling getComment");
+        }
+        const baseUrl = `/comments/{id}`
+            .replace(`{${"id"}}`, `${ params["id"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Get all comments
-   */
-  getComments(options?: any): FetchArgs {
-    const baseUrl = `/comments`;
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'GET'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Get all comments
+     */
+    getComments(options?: any): FetchArgs {
+        const baseUrl = `/comments`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Update a comment
-   * @param id
-   * @param body
-   */
-  updateComment(
-    params: {id: number; body: CmsUpdateCommentRequest},
-    options?: any,
-  ): FetchArgs {
-    // verify required parameter "id" is set
-    if (params['id'] == null) {
-      throw new Error(
-        'Missing required parameter id when calling updateComment',
-      );
-    }
-    // verify required parameter "body" is set
-    if (params['body'] == null) {
-      throw new Error(
-        'Missing required parameter body when calling updateComment',
-      );
-    }
-    const baseUrl = `/comments/{id}`.replace(`{${'id'}}`, `${params['id']}`);
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'PUT'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Update a comment
+     * @param id 
+     * @param body 
+     */
+    updateComment(params: {  "id": number; "body": CmsUpdateCommentRequest; }, options?: any): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling updateComment");
+        }
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling updateComment");
+        }
+        const baseUrl = `/comments/{id}`
+            .replace(`{${"id"}}`, `${ params["id"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "PUT" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    contentTypeHeader = {'Content-Type': 'application/json'};
-    if (params['body']) {
-      fetchOptions.body = JSON.stringify(params['body'] || {});
-    }
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
+        let contentTypeHeader: Dictionary<string> = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 };
 
 /**
  * CommentsApi - functional programming interface
  */
 export const CommentsApiFp = {
-  /**
-   *
-   * @summary Create a comment
-   * @param body
-   */
-  createComment(
-    params: {body: CmsCreateCommentRequest},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsCommentRequest> {
-    const fetchArgs = CommentsApiFetchParamCreator.createComment(
-      params,
-      options,
-    );
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Delete a comment
-   * @param id
-   */
-  deleteComment(
-    params: {id: number},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
-    const fetchArgs = CommentsApiFetchParamCreator.deleteComment(
-      params,
-      options,
-    );
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Get a comment
-   * @param id
-   */
-  getComment(
-    params: {id: number},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsComment> {
-    const fetchArgs = CommentsApiFetchParamCreator.getComment(params, options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Get all comments
-   */
-  getComments(
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsComment> {
-    const fetchArgs = CommentsApiFetchParamCreator.getComments(options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Update a comment
-   * @param id
-   * @param body
-   */
-  updateComment(
-    params: {id: number; body: CmsUpdateCommentRequest},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
-    const fetchArgs = CommentsApiFetchParamCreator.updateComment(
-      params,
-      options,
-    );
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
+    /**
+     * 
+     * @summary Create a comment
+     * @param body 
+     */
+    createComment(params: { "body": CmsCreateCommentRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsCommentRequest> {
+        const fetchArgs = CommentsApiFetchParamCreator.createComment(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Delete a comment
+     * @param id 
+     */
+    deleteComment(params: { "id": number;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
+        const fetchArgs = CommentsApiFetchParamCreator.deleteComment(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Get a comment
+     * @param id 
+     */
+    getComment(params: { "id": number;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsComment> {
+        const fetchArgs = CommentsApiFetchParamCreator.getComment(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Get all comments
+     */
+    getComments(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsComment> {
+        const fetchArgs = CommentsApiFetchParamCreator.getComments(options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Update a comment
+     * @param id 
+     * @param body 
+     */
+    updateComment(params: { "id": number; "body": CmsUpdateCommentRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
+        const fetchArgs = CommentsApiFetchParamCreator.updateComment(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
 };
 
 /**
  * CommentsApi - object-oriented interface
  */
 export class CommentsApi extends BaseAPI {
-  /**
-   *
-   * @summary Create a comment
-   * @param body
-   */
-  createComment(params: {body: CmsCreateCommentRequest}, options?: any) {
-    return CommentsApiFp.createComment(params, options)(
-      this.fetch,
-      this.basePath,
-    );
-  }
-  /**
-   *
-   * @summary Delete a comment
-   * @param id
-   */
-  deleteComment(params: {id: number}, options?: any) {
-    return CommentsApiFp.deleteComment(params, options)(
-      this.fetch,
-      this.basePath,
-    );
-  }
-  /**
-   *
-   * @summary Get a comment
-   * @param id
-   */
-  getComment(params: {id: number}, options?: any) {
-    return CommentsApiFp.getComment(params, options)(this.fetch, this.basePath);
-  }
-  /**
-   *
-   * @summary Get all comments
-   */
-  getComments(options?: any) {
-    return CommentsApiFp.getComments(options)(this.fetch, this.basePath);
-  }
-  /**
-   *
-   * @summary Update a comment
-   * @param id
-   * @param body
-   */
-  updateComment(
-    params: {id: number; body: CmsUpdateCommentRequest},
-    options?: any,
-  ) {
-    return CommentsApiFp.updateComment(params, options)(
-      this.fetch,
-      this.basePath,
-    );
-  }
-}
+    /**
+     * 
+     * @summary Create a comment
+     * @param body 
+     */
+    createComment(params: {  "body": CmsCreateCommentRequest; }, options?: any) {
+        return CommentsApiFp.createComment(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Delete a comment
+     * @param id 
+     */
+    deleteComment(params: {  "id": number; }, options?: any) {
+        return CommentsApiFp.deleteComment(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Get a comment
+     * @param id 
+     */
+    getComment(params: {  "id": number; }, options?: any) {
+        return CommentsApiFp.getComment(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Get all comments
+     */
+    getComments(options?: any) {
+        return CommentsApiFp.getComments(options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Update a comment
+     * @param id 
+     * @param body 
+     */
+    updateComment(params: {  "id": number; "body": CmsUpdateCommentRequest; }, options?: any) {
+        return CommentsApiFp.updateComment(params, options)(this.fetch, this.basePath);
+    }
+};
 
 /**
  * CommentsApi - factory interface
  */
-export const CommentsApiFactory = function(
-  fetch?: FetchAPI,
-  basePath?: string,
-) {
-  return {
-    /**
-     *
-     * @summary Create a comment
-     * @param body
-     */
-    createComment(params: {body: CmsCreateCommentRequest}, options?: any) {
-      return CommentsApiFp.createComment(params, options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Delete a comment
-     * @param id
-     */
-    deleteComment(params: {id: number}, options?: any) {
-      return CommentsApiFp.deleteComment(params, options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Get a comment
-     * @param id
-     */
-    getComment(params: {id: number}, options?: any) {
-      return CommentsApiFp.getComment(params, options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Get all comments
-     */
-    getComments(options?: any) {
-      return CommentsApiFp.getComments(options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Update a comment
-     * @param id
-     * @param body
-     */
-    updateComment(
-      params: {id: number; body: CmsUpdateCommentRequest},
-      options?: any,
-    ) {
-      return CommentsApiFp.updateComment(params, options)(fetch, basePath);
-    },
-  };
+export const CommentsApiFactory = function (fetch?: FetchAPI, basePath?: string) {
+    return {
+        /**
+         * 
+         * @summary Create a comment
+         * @param body 
+         */
+        createComment(params: {  "body": CmsCreateCommentRequest; }, options?: any) {
+            return CommentsApiFp.createComment(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Delete a comment
+         * @param id 
+         */
+        deleteComment(params: {  "id": number; }, options?: any) {
+            return CommentsApiFp.deleteComment(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Get a comment
+         * @param id 
+         */
+        getComment(params: {  "id": number; }, options?: any) {
+            return CommentsApiFp.getComment(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Get all comments
+         */
+        getComments(options?: any) {
+            return CommentsApiFp.getComments(options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Update a comment
+         * @param id 
+         * @param body 
+         */
+        updateComment(params: {  "id": number; "body": CmsUpdateCommentRequest; }, options?: any) {
+            return CommentsApiFp.updateComment(params, options)(fetch, basePath);
+        },
+    };
 };
+
 
 /**
  * PostsApi - fetch parameter creator
  */
 export const PostsApiFetchParamCreator = {
-  /**
-   *
-   * @summary Create a post
-   * @param body
-   */
-  createPost(params: {body: CmsCreatePostRequest}, options?: any): FetchArgs {
-    // verify required parameter "body" is set
-    if (params['body'] == null) {
-      throw new Error(
-        'Missing required parameter body when calling createPost',
-      );
-    }
-    const baseUrl = `/posts`;
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'POST'}, options);
+    /**
+     * 
+     * @summary Create a post
+     * @param body 
+     */
+    createPost(params: {  "body": CmsCreatePostRequest; }, options?: any): FetchArgs {
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling createPost");
+        }
+        const baseUrl = `/posts`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    contentTypeHeader = {'Content-Type': 'application/json'};
-    if (params['body']) {
-      fetchOptions.body = JSON.stringify(params['body'] || {});
-    }
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Delete a post
-   * @param id
-   */
-  deletePost(params: {id: number}, options?: any): FetchArgs {
-    // verify required parameter "id" is set
-    if (params['id'] == null) {
-      throw new Error('Missing required parameter id when calling deletePost');
-    }
-    const baseUrl = `/posts/{id}`.replace(`{${'id'}}`, `${params['id']}`);
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'DELETE'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Delete a post
+     * @param id 
+     */
+    deletePost(params: {  "id": number; }, options?: any): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling deletePost");
+        }
+        const baseUrl = `/posts/{id}`
+            .replace(`{${"id"}}`, `${ params["id"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "DELETE" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Get a post
-   * @param id
-   */
-  getPost(params: {id: number}, options?: any): FetchArgs {
-    // verify required parameter "id" is set
-    if (params['id'] == null) {
-      throw new Error('Missing required parameter id when calling getPost');
-    }
-    const baseUrl = `/posts/{id}`.replace(`{${'id'}}`, `${params['id']}`);
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'GET'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Get a post
+     * @param id 
+     */
+    getPost(params: {  "id": number; }, options?: any): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling getPost");
+        }
+        const baseUrl = `/posts/{id}`
+            .replace(`{${"id"}}`, `${ params["id"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Get a post (by slug)
-   * @param slug
-   */
-  getPostBySlug(params: {slug: string}, options?: any): FetchArgs {
-    // verify required parameter "slug" is set
-    if (params['slug'] == null) {
-      throw new Error(
-        'Missing required parameter slug when calling getPostBySlug',
-      );
-    }
-    const baseUrl = `/posts/slug/{slug}`.replace(
-      `{${'slug'}}`,
-      `${params['slug']}`,
-    );
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'GET'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Get a post (by slug)
+     * @param slug 
+     */
+    getPostBySlug(params: {  "slug": string; }, options?: any): FetchArgs {
+        // verify required parameter "slug" is set
+        if (params["slug"] == null) {
+            throw new Error("Missing required parameter slug when calling getPostBySlug");
+        }
+        const baseUrl = `/posts/slug/{slug}`
+            .replace(`{${"slug"}}`, `${ params["slug"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Get all comments by post
-   * @param id
-   */
-  getPostComments(params: {id: number}, options?: any): FetchArgs {
-    // verify required parameter "id" is set
-    if (params['id'] == null) {
-      throw new Error(
-        'Missing required parameter id when calling getPostComments',
-      );
-    }
-    const baseUrl = `/posts/{id}/comments`.replace(
-      `{${'id'}}`,
-      `${params['id']}`,
-    );
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'GET'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Get all comments by post
+     * @param id 
+     */
+    getPostComments(params: {  "id": number; }, options?: any): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling getPostComments");
+        }
+        const baseUrl = `/posts/{id}/comments`
+            .replace(`{${"id"}}`, `${ params["id"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Get all posts
-   * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
-   */
-  getPosts(params: {includeUnPublished?: boolean}, options?: any): FetchArgs {
-    const baseUrl = `/posts`;
-    let urlObj = url.parse(baseUrl, true);
-    urlObj.query = assign({}, urlObj.query, {
-      includeUnPublished: params['includeUnPublished'],
-    });
-    let fetchOptions: RequestInit = assign({}, {method: 'GET'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Get all posts
+     * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
+     */
+    getPosts(params: {  "includeUnPublished"?: boolean; }, options?: any): FetchArgs {
+        const baseUrl = `/posts`;
+        let urlObj = url.parse(baseUrl, true);
+        urlObj.query = assign({}, urlObj.query, {
+            "includeUnPublished": params["includeUnPublished"],
+        });
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Update a post
-   * @param id
-   * @param body
-   */
-  updatePost(
-    params: {id: number; body: CmsUpdatePostRequest},
-    options?: any,
-  ): FetchArgs {
-    // verify required parameter "id" is set
-    if (params['id'] == null) {
-      throw new Error('Missing required parameter id when calling updatePost');
-    }
-    // verify required parameter "body" is set
-    if (params['body'] == null) {
-      throw new Error(
-        'Missing required parameter body when calling updatePost',
-      );
-    }
-    const baseUrl = `/posts/{id}`.replace(`{${'id'}}`, `${params['id']}`);
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'PUT'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Update a post
+     * @param id 
+     * @param body 
+     */
+    updatePost(params: {  "id": number; "body": CmsUpdatePostRequest; }, options?: any): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling updatePost");
+        }
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling updatePost");
+        }
+        const baseUrl = `/posts/{id}`
+            .replace(`{${"id"}}`, `${ params["id"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "PUT" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    contentTypeHeader = {'Content-Type': 'application/json'};
-    if (params['body']) {
-      fetchOptions.body = JSON.stringify(params['body'] || {});
-    }
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
+        let contentTypeHeader: Dictionary<string> = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 };
 
 /**
  * PostsApi - functional programming interface
  */
 export const PostsApiFp = {
-  /**
-   *
-   * @summary Create a post
-   * @param body
-   */
-  createPost(
-    params: {body: CmsCreatePostRequest},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPostRequest> {
-    const fetchArgs = PostsApiFetchParamCreator.createPost(params, options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Delete a post
-   * @param id
-   */
-  deletePost(
-    params: {id: number},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
-    const fetchArgs = PostsApiFetchParamCreator.deletePost(params, options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Get a post
-   * @param id
-   */
-  getPost(
-    params: {id: number},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost> {
-    const fetchArgs = PostsApiFetchParamCreator.getPost(params, options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Get a post (by slug)
-   * @param slug
-   */
-  getPostBySlug(
-    params: {slug: string},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost> {
-    const fetchArgs = PostsApiFetchParamCreator.getPostBySlug(params, options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Get all comments by post
-   * @param id
-   */
-  getPostComments(
-    params: {id: number},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsComment> {
-    const fetchArgs = PostsApiFetchParamCreator.getPostComments(
-      params,
-      options,
-    );
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Get all posts
-   * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
-   */
-  getPosts(
-    params: {includeUnPublished?: boolean},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost> {
-    const fetchArgs = PostsApiFetchParamCreator.getPosts(params, options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Update a post
-   * @param id
-   * @param body
-   */
-  updatePost(
-    params: {id: number; body: CmsUpdatePostRequest},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
-    const fetchArgs = PostsApiFetchParamCreator.updatePost(params, options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
+    /**
+     * 
+     * @summary Create a post
+     * @param body 
+     */
+    createPost(params: { "body": CmsCreatePostRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPostRequest> {
+        const fetchArgs = PostsApiFetchParamCreator.createPost(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Delete a post
+     * @param id 
+     */
+    deletePost(params: { "id": number;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
+        const fetchArgs = PostsApiFetchParamCreator.deletePost(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Get a post
+     * @param id 
+     */
+    getPost(params: { "id": number;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost> {
+        const fetchArgs = PostsApiFetchParamCreator.getPost(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Get a post (by slug)
+     * @param slug 
+     */
+    getPostBySlug(params: { "slug": string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost> {
+        const fetchArgs = PostsApiFetchParamCreator.getPostBySlug(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Get all comments by post
+     * @param id 
+     */
+    getPostComments(params: { "id": number;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsComment> {
+        const fetchArgs = PostsApiFetchParamCreator.getPostComments(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Get all posts
+     * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
+     */
+    getPosts(params: { "includeUnPublished"?: boolean;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost> {
+        const fetchArgs = PostsApiFetchParamCreator.getPosts(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Update a post
+     * @param id 
+     * @param body 
+     */
+    updatePost(params: { "id": number; "body": CmsUpdatePostRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
+        const fetchArgs = PostsApiFetchParamCreator.updatePost(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
 };
 
 /**
  * PostsApi - object-oriented interface
  */
 export class PostsApi extends BaseAPI {
-  /**
-   *
-   * @summary Create a post
-   * @param body
-   */
-  createPost(params: {body: CmsCreatePostRequest}, options?: any) {
-    return PostsApiFp.createPost(params, options)(this.fetch, this.basePath);
-  }
-  /**
-   *
-   * @summary Delete a post
-   * @param id
-   */
-  deletePost(params: {id: number}, options?: any) {
-    return PostsApiFp.deletePost(params, options)(this.fetch, this.basePath);
-  }
-  /**
-   *
-   * @summary Get a post
-   * @param id
-   */
-  getPost(params: {id: number}, options?: any) {
-    return PostsApiFp.getPost(params, options)(this.fetch, this.basePath);
-  }
-  /**
-   *
-   * @summary Get a post (by slug)
-   * @param slug
-   */
-  getPostBySlug(params: {slug: string}, options?: any) {
-    return PostsApiFp.getPostBySlug(params, options)(this.fetch, this.basePath);
-  }
-  /**
-   *
-   * @summary Get all comments by post
-   * @param id
-   */
-  getPostComments(params: {id: number}, options?: any) {
-    return PostsApiFp.getPostComments(params, options)(
-      this.fetch,
-      this.basePath,
-    );
-  }
-  /**
-   *
-   * @summary Get all posts
-   * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
-   */
-  getPosts(params: {includeUnPublished?: boolean}, options?: any) {
-    return PostsApiFp.getPosts(params, options)(this.fetch, this.basePath);
-  }
-  /**
-   *
-   * @summary Update a post
-   * @param id
-   * @param body
-   */
-  updatePost(params: {id: number; body: CmsUpdatePostRequest}, options?: any) {
-    return PostsApiFp.updatePost(params, options)(this.fetch, this.basePath);
-  }
-}
+    /**
+     * 
+     * @summary Create a post
+     * @param body 
+     */
+    createPost(params: {  "body": CmsCreatePostRequest; }, options?: any) {
+        return PostsApiFp.createPost(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Delete a post
+     * @param id 
+     */
+    deletePost(params: {  "id": number; }, options?: any) {
+        return PostsApiFp.deletePost(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Get a post
+     * @param id 
+     */
+    getPost(params: {  "id": number; }, options?: any) {
+        return PostsApiFp.getPost(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Get a post (by slug)
+     * @param slug 
+     */
+    getPostBySlug(params: {  "slug": string; }, options?: any) {
+        return PostsApiFp.getPostBySlug(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Get all comments by post
+     * @param id 
+     */
+    getPostComments(params: {  "id": number; }, options?: any) {
+        return PostsApiFp.getPostComments(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Get all posts
+     * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
+     */
+    getPosts(params: {  "includeUnPublished"?: boolean; }, options?: any) {
+        return PostsApiFp.getPosts(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Update a post
+     * @param id 
+     * @param body 
+     */
+    updatePost(params: {  "id": number; "body": CmsUpdatePostRequest; }, options?: any) {
+        return PostsApiFp.updatePost(params, options)(this.fetch, this.basePath);
+    }
+};
 
 /**
  * PostsApi - factory interface
  */
-export const PostsApiFactory = function(fetch?: FetchAPI, basePath?: string) {
-  return {
-    /**
-     *
-     * @summary Create a post
-     * @param body
-     */
-    createPost(params: {body: CmsCreatePostRequest}, options?: any) {
-      return PostsApiFp.createPost(params, options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Delete a post
-     * @param id
-     */
-    deletePost(params: {id: number}, options?: any) {
-      return PostsApiFp.deletePost(params, options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Get a post
-     * @param id
-     */
-    getPost(params: {id: number}, options?: any) {
-      return PostsApiFp.getPost(params, options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Get a post (by slug)
-     * @param slug
-     */
-    getPostBySlug(params: {slug: string}, options?: any) {
-      return PostsApiFp.getPostBySlug(params, options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Get all comments by post
-     * @param id
-     */
-    getPostComments(params: {id: number}, options?: any) {
-      return PostsApiFp.getPostComments(params, options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Get all posts
-     * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
-     */
-    getPosts(params: {includeUnPublished?: boolean}, options?: any) {
-      return PostsApiFp.getPosts(params, options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Update a post
-     * @param id
-     * @param body
-     */
-    updatePost(
-      params: {id: number; body: CmsUpdatePostRequest},
-      options?: any,
-    ) {
-      return PostsApiFp.updatePost(params, options)(fetch, basePath);
-    },
-  };
+export const PostsApiFactory = function (fetch?: FetchAPI, basePath?: string) {
+    return {
+        /**
+         * 
+         * @summary Create a post
+         * @param body 
+         */
+        createPost(params: {  "body": CmsCreatePostRequest; }, options?: any) {
+            return PostsApiFp.createPost(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Delete a post
+         * @param id 
+         */
+        deletePost(params: {  "id": number; }, options?: any) {
+            return PostsApiFp.deletePost(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Get a post
+         * @param id 
+         */
+        getPost(params: {  "id": number; }, options?: any) {
+            return PostsApiFp.getPost(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Get a post (by slug)
+         * @param slug 
+         */
+        getPostBySlug(params: {  "slug": string; }, options?: any) {
+            return PostsApiFp.getPostBySlug(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Get all comments by post
+         * @param id 
+         */
+        getPostComments(params: {  "id": number; }, options?: any) {
+            return PostsApiFp.getPostComments(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Get all posts
+         * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
+         */
+        getPosts(params: {  "includeUnPublished"?: boolean; }, options?: any) {
+            return PostsApiFp.getPosts(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Update a post
+         * @param id 
+         * @param body 
+         */
+        updatePost(params: {  "id": number; "body": CmsUpdatePostRequest; }, options?: any) {
+            return PostsApiFp.updatePost(params, options)(fetch, basePath);
+        },
+    };
 };
+
+
+/**
+ * RegisterApi - fetch parameter creator
+ */
+export const RegisterApiFetchParamCreator = {
+    /**
+     * 
+     * @summary Register for a new user account in order to receive an email with a new user authentication token
+     * @param body 
+     */
+    registerNewUser(params: {  "body": CmsCreateUserRequest; }, options?: any): FetchArgs {
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling registerNewUser");
+        }
+        const baseUrl = `/register/user/0`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
+
+        let contentTypeHeader: Dictionary<string> = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Verify ownership of your email address in order to finish creating your new user account
+     * @param body 
+     */
+    verifyNewUser(params: {  "body": ProtobufEmpty; }, options?: any): FetchArgs {
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling verifyNewUser");
+        }
+        const baseUrl = `/register/user/1`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
+
+        let contentTypeHeader: Dictionary<string> = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+};
+
+/**
+ * RegisterApi - functional programming interface
+ */
+export const RegisterApiFp = {
+    /**
+     * 
+     * @summary Register for a new user account in order to receive an email with a new user authentication token
+     * @param body 
+     */
+    registerNewUser(params: { "body": CmsCreateUserRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
+        const fetchArgs = RegisterApiFetchParamCreator.registerNewUser(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Verify ownership of your email address in order to finish creating your new user account
+     * @param body 
+     */
+    verifyNewUser(params: { "body": ProtobufEmpty;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUserRequest> {
+        const fetchArgs = RegisterApiFetchParamCreator.verifyNewUser(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+};
+
+/**
+ * RegisterApi - object-oriented interface
+ */
+export class RegisterApi extends BaseAPI {
+    /**
+     * 
+     * @summary Register for a new user account in order to receive an email with a new user authentication token
+     * @param body 
+     */
+    registerNewUser(params: {  "body": CmsCreateUserRequest; }, options?: any) {
+        return RegisterApiFp.registerNewUser(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Verify ownership of your email address in order to finish creating your new user account
+     * @param body 
+     */
+    verifyNewUser(params: {  "body": ProtobufEmpty; }, options?: any) {
+        return RegisterApiFp.verifyNewUser(params, options)(this.fetch, this.basePath);
+    }
+};
+
+/**
+ * RegisterApi - factory interface
+ */
+export const RegisterApiFactory = function (fetch?: FetchAPI, basePath?: string) {
+    return {
+        /**
+         * 
+         * @summary Register for a new user account in order to receive an email with a new user authentication token
+         * @param body 
+         */
+        registerNewUser(params: {  "body": CmsCreateUserRequest; }, options?: any) {
+            return RegisterApiFp.registerNewUser(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Verify ownership of your email address in order to finish creating your new user account
+         * @param body 
+         */
+        verifyNewUser(params: {  "body": ProtobufEmpty; }, options?: any) {
+            return RegisterApiFp.verifyNewUser(params, options)(fetch, basePath);
+        },
+    };
+};
+
 
 /**
  * SetupApi - fetch parameter creator
  */
 export const SetupApiFetchParamCreator = {
-  /**
-   *
-   * @summary Check if application is setup
-   */
-  isSetup(options?: any): FetchArgs {
-    const baseUrl = `/is-setup`;
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'GET'}, options);
+    /**
+     * 
+     * @summary Check if application is setup
+     */
+    isSetup(options?: any): FetchArgs {
+        const baseUrl = `/is-setup`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Setup the application
-   * @param body
-   */
-  setup(params: {body: CmsCreateUserRequest}, options?: any): FetchArgs {
-    // verify required parameter "body" is set
-    if (params['body'] == null) {
-      throw new Error('Missing required parameter body when calling setup');
-    }
-    const baseUrl = `/setup`;
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'POST'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Setup the application
+     * @param body 
+     */
+    setup(params: {  "body": CmsCreateUserRequest; }, options?: any): FetchArgs {
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling setup");
+        }
+        const baseUrl = `/setup`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    contentTypeHeader = {'Content-Type': 'application/json'};
-    if (params['body']) {
-      fetchOptions.body = JSON.stringify(params['body'] || {});
-    }
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
+        let contentTypeHeader: Dictionary<string> = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 };
 
 /**
  * SetupApi - functional programming interface
  */
 export const SetupApiFp = {
-  /**
-   *
-   * @summary Check if application is setup
-   */
-  isSetup(
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufBoolValue> {
-    const fetchArgs = SetupApiFetchParamCreator.isSetup(options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Setup the application
-   * @param body
-   */
-  setup(
-    params: {body: CmsCreateUserRequest},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUserRequest> {
-    const fetchArgs = SetupApiFetchParamCreator.setup(params, options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
+    /**
+     * 
+     * @summary Check if application is setup
+     */
+    isSetup(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufBoolValue> {
+        const fetchArgs = SetupApiFetchParamCreator.isSetup(options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Setup the application
+     * @param body 
+     */
+    setup(params: { "body": CmsCreateUserRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUserRequest> {
+        const fetchArgs = SetupApiFetchParamCreator.setup(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
 };
 
 /**
  * SetupApi - object-oriented interface
  */
 export class SetupApi extends BaseAPI {
-  /**
-   *
-   * @summary Check if application is setup
-   */
-  isSetup(options?: any) {
-    return SetupApiFp.isSetup(options)(this.fetch, this.basePath);
-  }
-  /**
-   *
-   * @summary Setup the application
-   * @param body
-   */
-  setup(params: {body: CmsCreateUserRequest}, options?: any) {
-    return SetupApiFp.setup(params, options)(this.fetch, this.basePath);
-  }
-}
+    /**
+     * 
+     * @summary Check if application is setup
+     */
+    isSetup(options?: any) {
+        return SetupApiFp.isSetup(options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Setup the application
+     * @param body 
+     */
+    setup(params: {  "body": CmsCreateUserRequest; }, options?: any) {
+        return SetupApiFp.setup(params, options)(this.fetch, this.basePath);
+    }
+};
 
 /**
  * SetupApi - factory interface
  */
-export const SetupApiFactory = function(fetch?: FetchAPI, basePath?: string) {
-  return {
-    /**
-     *
-     * @summary Check if application is setup
-     */
-    isSetup(options?: any) {
-      return SetupApiFp.isSetup(options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Setup the application
-     * @param body
-     */
-    setup(params: {body: CmsCreateUserRequest}, options?: any) {
-      return SetupApiFp.setup(params, options)(fetch, basePath);
-    },
-  };
+export const SetupApiFactory = function (fetch?: FetchAPI, basePath?: string) {
+    return {
+        /**
+         * 
+         * @summary Check if application is setup
+         */
+        isSetup(options?: any) {
+            return SetupApiFp.isSetup(options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Setup the application
+         * @param body 
+         */
+        setup(params: {  "body": CmsCreateUserRequest; }, options?: any) {
+            return SetupApiFp.setup(params, options)(fetch, basePath);
+        },
+    };
 };
+
 
 /**
  * UsersApi - fetch parameter creator
  */
 export const UsersApiFetchParamCreator = {
-  /**
-   *
-   * @summary Create a user
-   * @param body
-   */
-  createUser(params: {body: CmsCreateUserRequest}, options?: any): FetchArgs {
-    // verify required parameter "body" is set
-    if (params['body'] == null) {
-      throw new Error(
-        'Missing required parameter body when calling createUser',
-      );
-    }
-    const baseUrl = `/users`;
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'POST'}, options);
+    /**
+     * 
+     * @summary Create a user
+     * @param body 
+     */
+    createUser(params: {  "body": CmsCreateUserRequest; }, options?: any): FetchArgs {
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling createUser");
+        }
+        const baseUrl = `/users`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    contentTypeHeader = {'Content-Type': 'application/json'};
-    if (params['body']) {
-      fetchOptions.body = JSON.stringify(params['body'] || {});
-    }
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Delete a user
-   * @param id
-   */
-  deleteUser(params: {id: string}, options?: any): FetchArgs {
-    // verify required parameter "id" is set
-    if (params['id'] == null) {
-      throw new Error('Missing required parameter id when calling deleteUser');
-    }
-    const baseUrl = `/users/{id}`.replace(`{${'id'}}`, `${params['id']}`);
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'DELETE'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Delete a user
+     * @param id 
+     */
+    deleteUser(params: {  "id": string; }, options?: any): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling deleteUser");
+        }
+        const baseUrl = `/users/{id}`
+            .replace(`{${"id"}}`, `${ params["id"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "DELETE" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Get a user
-   * @param id
-   */
-  getUser(params: {id: string}, options?: any): FetchArgs {
-    // verify required parameter "id" is set
-    if (params['id'] == null) {
-      throw new Error('Missing required parameter id when calling getUser');
-    }
-    const baseUrl = `/users/{id}`.replace(`{${'id'}}`, `${params['id']}`);
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'GET'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Get a user
+     * @param id 
+     */
+    getUser(params: {  "id": string; }, options?: any): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling getUser");
+        }
+        const baseUrl = `/users/{id}`
+            .replace(`{${"id"}}`, `${ params["id"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
-  /**
-   *
-   * @summary Get all comments by user
-   * @param id
-   */
-  getUserComments(params: {id: string}, options?: any): FetchArgs {
-    // verify required parameter "id" is set
-    if (params['id'] == null) {
-      throw new Error(
-        'Missing required parameter id when calling getUserComments',
-      );
-    }
-    const baseUrl = `/users/{id}/comments`.replace(
-      `{${'id'}}`,
-      `${params['id']}`,
-    );
-    let urlObj = url.parse(baseUrl, true);
-    let fetchOptions: RequestInit = assign({}, {method: 'GET'}, options);
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Get all comments by user
+     * @param id 
+     */
+    getUserComments(params: {  "id": string; }, options?: any): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling getUserComments");
+        }
+        const baseUrl = `/users/{id}/comments`
+            .replace(`{${"id"}}`, `${ params["id"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-    let contentTypeHeader: Dictionary<string> = {};
-    if (contentTypeHeader) {
-      fetchOptions.headers = assign(
-        {},
-        contentTypeHeader,
-        fetchOptions.headers,
-      );
-    }
-    return {
-      url: url.format(urlObj),
-      options: fetchOptions,
-    };
-  },
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 };
 
 /**
  * UsersApi - functional programming interface
  */
 export const UsersApiFp = {
-  /**
-   *
-   * @summary Create a user
-   * @param body
-   */
-  createUser(
-    params: {body: CmsCreateUserRequest},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUserRequest> {
-    const fetchArgs = UsersApiFetchParamCreator.createUser(params, options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Delete a user
-   * @param id
-   */
-  deleteUser(
-    params: {id: string},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
-    const fetchArgs = UsersApiFetchParamCreator.deleteUser(params, options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Get a user
-   * @param id
-   */
-  getUser(
-    params: {id: string},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUser> {
-    const fetchArgs = UsersApiFetchParamCreator.getUser(params, options);
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
-  /**
-   *
-   * @summary Get all comments by user
-   * @param id
-   */
-  getUserComments(
-    params: {id: string},
-    options?: any,
-  ): (fetch?: FetchAPI, basePath?: string) => Promise<CmsComment> {
-    const fetchArgs = UsersApiFetchParamCreator.getUserComments(
-      params,
-      options,
-    );
-    return (
-      fetch: FetchAPI = isomorphicFetch,
-      basePath: string = BASE_PATH,
-    ) => {
-      return fetch(basePath + fetchArgs.url, fetchArgs.options).then(
-        response => {
-          if (response.status >= 200 && response.status < 300) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        },
-      );
-    };
-  },
+    /**
+     * 
+     * @summary Create a user
+     * @param body 
+     */
+    createUser(params: { "body": CmsCreateUserRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUserRequest> {
+        const fetchArgs = UsersApiFetchParamCreator.createUser(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Delete a user
+     * @param id 
+     */
+    deleteUser(params: { "id": string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
+        const fetchArgs = UsersApiFetchParamCreator.deleteUser(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Get a user
+     * @param id 
+     */
+    getUser(params: { "id": string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUser> {
+        const fetchArgs = UsersApiFetchParamCreator.getUser(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Get all comments by user
+     * @param id 
+     */
+    getUserComments(params: { "id": string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsComment> {
+        const fetchArgs = UsersApiFetchParamCreator.getUserComments(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
 };
 
 /**
  * UsersApi - object-oriented interface
  */
 export class UsersApi extends BaseAPI {
-  /**
-   *
-   * @summary Create a user
-   * @param body
-   */
-  createUser(params: {body: CmsCreateUserRequest}, options?: any) {
-    return UsersApiFp.createUser(params, options)(this.fetch, this.basePath);
-  }
-  /**
-   *
-   * @summary Delete a user
-   * @param id
-   */
-  deleteUser(params: {id: string}, options?: any) {
-    return UsersApiFp.deleteUser(params, options)(this.fetch, this.basePath);
-  }
-  /**
-   *
-   * @summary Get a user
-   * @param id
-   */
-  getUser(params: {id: string}, options?: any) {
-    return UsersApiFp.getUser(params, options)(this.fetch, this.basePath);
-  }
-  /**
-   *
-   * @summary Get all comments by user
-   * @param id
-   */
-  getUserComments(params: {id: string}, options?: any) {
-    return UsersApiFp.getUserComments(params, options)(
-      this.fetch,
-      this.basePath,
-    );
-  }
-}
+    /**
+     * 
+     * @summary Create a user
+     * @param body 
+     */
+    createUser(params: {  "body": CmsCreateUserRequest; }, options?: any) {
+        return UsersApiFp.createUser(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Delete a user
+     * @param id 
+     */
+    deleteUser(params: {  "id": string; }, options?: any) {
+        return UsersApiFp.deleteUser(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Get a user
+     * @param id 
+     */
+    getUser(params: {  "id": string; }, options?: any) {
+        return UsersApiFp.getUser(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Get all comments by user
+     * @param id 
+     */
+    getUserComments(params: {  "id": string; }, options?: any) {
+        return UsersApiFp.getUserComments(params, options)(this.fetch, this.basePath);
+    }
+};
 
 /**
  * UsersApi - factory interface
  */
-export const UsersApiFactory = function(fetch?: FetchAPI, basePath?: string) {
-  return {
-    /**
-     *
-     * @summary Create a user
-     * @param body
-     */
-    createUser(params: {body: CmsCreateUserRequest}, options?: any) {
-      return UsersApiFp.createUser(params, options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Delete a user
-     * @param id
-     */
-    deleteUser(params: {id: string}, options?: any) {
-      return UsersApiFp.deleteUser(params, options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Get a user
-     * @param id
-     */
-    getUser(params: {id: string}, options?: any) {
-      return UsersApiFp.getUser(params, options)(fetch, basePath);
-    },
-    /**
-     *
-     * @summary Get all comments by user
-     * @param id
-     */
-    getUserComments(params: {id: string}, options?: any) {
-      return UsersApiFp.getUserComments(params, options)(fetch, basePath);
-    },
-  };
+export const UsersApiFactory = function (fetch?: FetchAPI, basePath?: string) {
+    return {
+        /**
+         * 
+         * @summary Create a user
+         * @param body 
+         */
+        createUser(params: {  "body": CmsCreateUserRequest; }, options?: any) {
+            return UsersApiFp.createUser(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Delete a user
+         * @param id 
+         */
+        deleteUser(params: {  "id": string; }, options?: any) {
+            return UsersApiFp.deleteUser(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Get a user
+         * @param id 
+         */
+        getUser(params: {  "id": string; }, options?: any) {
+            return UsersApiFp.getUser(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Get all comments by user
+         * @param id 
+         */
+        getUserComments(params: {  "id": string; }, options?: any) {
+            return UsersApiFp.getUserComments(params, options)(fetch, basePath);
+        },
+    };
 };
+

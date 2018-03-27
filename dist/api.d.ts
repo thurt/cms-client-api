@@ -95,11 +95,20 @@ export interface ProtobufBoolValue {
 export interface ProtobufEmpty {
 }
 /**
+ * Wrapper message for `string`.  The JSON representation for `StringValue` is JSON string.
+ */
+export interface ProtobufStringValue {
+    /**
+     * The string value.
+     */
+    "value"?: string;
+}
+/**
  * AuthApi - fetch parameter creator
  */
 export declare const AuthApiFetchParamCreator: {
     authUser(params: {
-        body: CmsAuthUserRequest;
+        "body": CmsAuthUserRequest;
     }, options?: any): FetchArgs;
 };
 /**
@@ -107,7 +116,7 @@ export declare const AuthApiFetchParamCreator: {
  */
 export declare const AuthApiFp: {
     authUser(params: {
-        body: CmsAuthUserRequest;
+        "body": CmsAuthUserRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsAccessToken>;
 };
 /**
@@ -116,11 +125,11 @@ export declare const AuthApiFp: {
 export declare class AuthApi extends BaseAPI {
     /**
      *
-     * @summary Authorize as a user to get an access token
+     * @summary Authenticate as an existing user to get an access token
      * @param body
      */
     authUser(params: {
-        body: CmsAuthUserRequest;
+        "body": CmsAuthUserRequest;
     }, options?: any): Promise<CmsAccessToken>;
 }
 /**
@@ -128,7 +137,7 @@ export declare class AuthApi extends BaseAPI {
  */
 export declare const AuthApiFactory: (fetch?: FetchAPI, basePath?: string) => {
     authUser(params: {
-        body: CmsAuthUserRequest;
+        "body": CmsAuthUserRequest;
     }, options?: any): Promise<CmsAccessToken>;
 };
 /**
@@ -136,18 +145,18 @@ export declare const AuthApiFactory: (fetch?: FetchAPI, basePath?: string) => {
  */
 export declare const CommentsApiFetchParamCreator: {
     createComment(params: {
-        body: CmsCreateCommentRequest;
+        "body": CmsCreateCommentRequest;
     }, options?: any): FetchArgs;
     deleteComment(params: {
-        id: number;
+        "id": number;
     }, options?: any): FetchArgs;
     getComment(params: {
-        id: number;
+        "id": number;
     }, options?: any): FetchArgs;
     getComments(options?: any): FetchArgs;
     updateComment(params: {
-        id: number;
-        body: CmsUpdateCommentRequest;
+        "id": number;
+        "body": CmsUpdateCommentRequest;
     }, options?: any): FetchArgs;
 };
 /**
@@ -155,18 +164,18 @@ export declare const CommentsApiFetchParamCreator: {
  */
 export declare const CommentsApiFp: {
     createComment(params: {
-        body: CmsCreateCommentRequest;
+        "body": CmsCreateCommentRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsCommentRequest>;
     deleteComment(params: {
-        id: number;
+        "id": number;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty>;
     getComment(params: {
-        id: number;
+        "id": number;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsComment>;
     getComments(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsComment>;
     updateComment(params: {
-        id: number;
-        body: CmsUpdateCommentRequest;
+        "id": number;
+        "body": CmsUpdateCommentRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty>;
 };
 /**
@@ -179,7 +188,7 @@ export declare class CommentsApi extends BaseAPI {
      * @param body
      */
     createComment(params: {
-        body: CmsCreateCommentRequest;
+        "body": CmsCreateCommentRequest;
     }, options?: any): Promise<CmsCommentRequest>;
     /**
      *
@@ -187,7 +196,7 @@ export declare class CommentsApi extends BaseAPI {
      * @param id
      */
     deleteComment(params: {
-        id: number;
+        "id": number;
     }, options?: any): Promise<ProtobufEmpty>;
     /**
      *
@@ -195,7 +204,7 @@ export declare class CommentsApi extends BaseAPI {
      * @param id
      */
     getComment(params: {
-        id: number;
+        "id": number;
     }, options?: any): Promise<CmsComment>;
     /**
      *
@@ -209,8 +218,8 @@ export declare class CommentsApi extends BaseAPI {
      * @param body
      */
     updateComment(params: {
-        id: number;
-        body: CmsUpdateCommentRequest;
+        "id": number;
+        "body": CmsUpdateCommentRequest;
     }, options?: any): Promise<ProtobufEmpty>;
 }
 /**
@@ -218,18 +227,18 @@ export declare class CommentsApi extends BaseAPI {
  */
 export declare const CommentsApiFactory: (fetch?: FetchAPI, basePath?: string) => {
     createComment(params: {
-        body: CmsCreateCommentRequest;
+        "body": CmsCreateCommentRequest;
     }, options?: any): Promise<CmsCommentRequest>;
     deleteComment(params: {
-        id: number;
+        "id": number;
     }, options?: any): Promise<ProtobufEmpty>;
     getComment(params: {
-        id: number;
+        "id": number;
     }, options?: any): Promise<CmsComment>;
     getComments(options?: any): Promise<CmsComment>;
     updateComment(params: {
-        id: number;
-        body: CmsUpdateCommentRequest;
+        "id": number;
+        "body": CmsUpdateCommentRequest;
     }, options?: any): Promise<ProtobufEmpty>;
 };
 /**
@@ -237,26 +246,26 @@ export declare const CommentsApiFactory: (fetch?: FetchAPI, basePath?: string) =
  */
 export declare const PostsApiFetchParamCreator: {
     createPost(params: {
-        body: CmsCreatePostRequest;
+        "body": CmsCreatePostRequest;
     }, options?: any): FetchArgs;
     deletePost(params: {
-        id: number;
+        "id": number;
     }, options?: any): FetchArgs;
     getPost(params: {
-        id: number;
+        "id": number;
     }, options?: any): FetchArgs;
     getPostBySlug(params: {
-        slug: string;
+        "slug": string;
     }, options?: any): FetchArgs;
     getPostComments(params: {
-        id: number;
+        "id": number;
     }, options?: any): FetchArgs;
     getPosts(params: {
-        includeUnPublished?: boolean;
+        "includeUnPublished"?: boolean;
     }, options?: any): FetchArgs;
     updatePost(params: {
-        id: number;
-        body: CmsUpdatePostRequest;
+        "id": number;
+        "body": CmsUpdatePostRequest;
     }, options?: any): FetchArgs;
 };
 /**
@@ -264,26 +273,26 @@ export declare const PostsApiFetchParamCreator: {
  */
 export declare const PostsApiFp: {
     createPost(params: {
-        body: CmsCreatePostRequest;
+        "body": CmsCreatePostRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPostRequest>;
     deletePost(params: {
-        id: number;
+        "id": number;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty>;
     getPost(params: {
-        id: number;
+        "id": number;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost>;
     getPostBySlug(params: {
-        slug: string;
+        "slug": string;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost>;
     getPostComments(params: {
-        id: number;
+        "id": number;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsComment>;
     getPosts(params: {
-        includeUnPublished?: boolean;
+        "includeUnPublished"?: boolean;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost>;
     updatePost(params: {
-        id: number;
-        body: CmsUpdatePostRequest;
+        "id": number;
+        "body": CmsUpdatePostRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty>;
 };
 /**
@@ -296,7 +305,7 @@ export declare class PostsApi extends BaseAPI {
      * @param body
      */
     createPost(params: {
-        body: CmsCreatePostRequest;
+        "body": CmsCreatePostRequest;
     }, options?: any): Promise<CmsPostRequest>;
     /**
      *
@@ -304,7 +313,7 @@ export declare class PostsApi extends BaseAPI {
      * @param id
      */
     deletePost(params: {
-        id: number;
+        "id": number;
     }, options?: any): Promise<ProtobufEmpty>;
     /**
      *
@@ -312,7 +321,7 @@ export declare class PostsApi extends BaseAPI {
      * @param id
      */
     getPost(params: {
-        id: number;
+        "id": number;
     }, options?: any): Promise<CmsPost>;
     /**
      *
@@ -320,7 +329,7 @@ export declare class PostsApi extends BaseAPI {
      * @param slug
      */
     getPostBySlug(params: {
-        slug: string;
+        "slug": string;
     }, options?: any): Promise<CmsPost>;
     /**
      *
@@ -328,7 +337,7 @@ export declare class PostsApi extends BaseAPI {
      * @param id
      */
     getPostComments(params: {
-        id: number;
+        "id": number;
     }, options?: any): Promise<CmsComment>;
     /**
      *
@@ -336,7 +345,7 @@ export declare class PostsApi extends BaseAPI {
      * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
      */
     getPosts(params: {
-        includeUnPublished?: boolean;
+        "includeUnPublished"?: boolean;
     }, options?: any): Promise<CmsPost>;
     /**
      *
@@ -345,8 +354,8 @@ export declare class PostsApi extends BaseAPI {
      * @param body
      */
     updatePost(params: {
-        id: number;
-        body: CmsUpdatePostRequest;
+        "id": number;
+        "body": CmsUpdatePostRequest;
     }, options?: any): Promise<ProtobufEmpty>;
 }
 /**
@@ -354,27 +363,81 @@ export declare class PostsApi extends BaseAPI {
  */
 export declare const PostsApiFactory: (fetch?: FetchAPI, basePath?: string) => {
     createPost(params: {
-        body: CmsCreatePostRequest;
+        "body": CmsCreatePostRequest;
     }, options?: any): Promise<CmsPostRequest>;
     deletePost(params: {
-        id: number;
+        "id": number;
     }, options?: any): Promise<ProtobufEmpty>;
     getPost(params: {
-        id: number;
+        "id": number;
     }, options?: any): Promise<CmsPost>;
     getPostBySlug(params: {
-        slug: string;
+        "slug": string;
     }, options?: any): Promise<CmsPost>;
     getPostComments(params: {
-        id: number;
+        "id": number;
     }, options?: any): Promise<CmsComment>;
     getPosts(params: {
-        includeUnPublished?: boolean;
+        "includeUnPublished"?: boolean;
     }, options?: any): Promise<CmsPost>;
     updatePost(params: {
-        id: number;
-        body: CmsUpdatePostRequest;
+        "id": number;
+        "body": CmsUpdatePostRequest;
     }, options?: any): Promise<ProtobufEmpty>;
+};
+/**
+ * RegisterApi - fetch parameter creator
+ */
+export declare const RegisterApiFetchParamCreator: {
+    registerNewUser(params: {
+        "body": CmsCreateUserRequest;
+    }, options?: any): FetchArgs;
+    verifyNewUser(params: {
+        "body": ProtobufEmpty;
+    }, options?: any): FetchArgs;
+};
+/**
+ * RegisterApi - functional programming interface
+ */
+export declare const RegisterApiFp: {
+    registerNewUser(params: {
+        "body": CmsCreateUserRequest;
+    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty>;
+    verifyNewUser(params: {
+        "body": ProtobufEmpty;
+    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUserRequest>;
+};
+/**
+ * RegisterApi - object-oriented interface
+ */
+export declare class RegisterApi extends BaseAPI {
+    /**
+     *
+     * @summary Register for a new user account in order to receive an email with a new user authentication token
+     * @param body
+     */
+    registerNewUser(params: {
+        "body": CmsCreateUserRequest;
+    }, options?: any): Promise<ProtobufEmpty>;
+    /**
+     *
+     * @summary Verify ownership of your email address in order to finish creating your new user account
+     * @param body
+     */
+    verifyNewUser(params: {
+        "body": ProtobufEmpty;
+    }, options?: any): Promise<CmsUserRequest>;
+}
+/**
+ * RegisterApi - factory interface
+ */
+export declare const RegisterApiFactory: (fetch?: FetchAPI, basePath?: string) => {
+    registerNewUser(params: {
+        "body": CmsCreateUserRequest;
+    }, options?: any): Promise<ProtobufEmpty>;
+    verifyNewUser(params: {
+        "body": ProtobufEmpty;
+    }, options?: any): Promise<CmsUserRequest>;
 };
 /**
  * SetupApi - fetch parameter creator
@@ -382,7 +445,7 @@ export declare const PostsApiFactory: (fetch?: FetchAPI, basePath?: string) => {
 export declare const SetupApiFetchParamCreator: {
     isSetup(options?: any): FetchArgs;
     setup(params: {
-        body: CmsCreateUserRequest;
+        "body": CmsCreateUserRequest;
     }, options?: any): FetchArgs;
 };
 /**
@@ -391,7 +454,7 @@ export declare const SetupApiFetchParamCreator: {
 export declare const SetupApiFp: {
     isSetup(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufBoolValue>;
     setup(params: {
-        body: CmsCreateUserRequest;
+        "body": CmsCreateUserRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUserRequest>;
 };
 /**
@@ -409,7 +472,7 @@ export declare class SetupApi extends BaseAPI {
      * @param body
      */
     setup(params: {
-        body: CmsCreateUserRequest;
+        "body": CmsCreateUserRequest;
     }, options?: any): Promise<CmsUserRequest>;
 }
 /**
@@ -418,7 +481,7 @@ export declare class SetupApi extends BaseAPI {
 export declare const SetupApiFactory: (fetch?: FetchAPI, basePath?: string) => {
     isSetup(options?: any): Promise<ProtobufBoolValue>;
     setup(params: {
-        body: CmsCreateUserRequest;
+        "body": CmsCreateUserRequest;
     }, options?: any): Promise<CmsUserRequest>;
 };
 /**
@@ -426,16 +489,16 @@ export declare const SetupApiFactory: (fetch?: FetchAPI, basePath?: string) => {
  */
 export declare const UsersApiFetchParamCreator: {
     createUser(params: {
-        body: CmsCreateUserRequest;
+        "body": CmsCreateUserRequest;
     }, options?: any): FetchArgs;
     deleteUser(params: {
-        id: string;
+        "id": string;
     }, options?: any): FetchArgs;
     getUser(params: {
-        id: string;
+        "id": string;
     }, options?: any): FetchArgs;
     getUserComments(params: {
-        id: string;
+        "id": string;
     }, options?: any): FetchArgs;
 };
 /**
@@ -443,16 +506,16 @@ export declare const UsersApiFetchParamCreator: {
  */
 export declare const UsersApiFp: {
     createUser(params: {
-        body: CmsCreateUserRequest;
+        "body": CmsCreateUserRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUserRequest>;
     deleteUser(params: {
-        id: string;
+        "id": string;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty>;
     getUser(params: {
-        id: string;
+        "id": string;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUser>;
     getUserComments(params: {
-        id: string;
+        "id": string;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsComment>;
 };
 /**
@@ -465,7 +528,7 @@ export declare class UsersApi extends BaseAPI {
      * @param body
      */
     createUser(params: {
-        body: CmsCreateUserRequest;
+        "body": CmsCreateUserRequest;
     }, options?: any): Promise<CmsUserRequest>;
     /**
      *
@@ -473,7 +536,7 @@ export declare class UsersApi extends BaseAPI {
      * @param id
      */
     deleteUser(params: {
-        id: string;
+        "id": string;
     }, options?: any): Promise<ProtobufEmpty>;
     /**
      *
@@ -481,7 +544,7 @@ export declare class UsersApi extends BaseAPI {
      * @param id
      */
     getUser(params: {
-        id: string;
+        "id": string;
     }, options?: any): Promise<CmsUser>;
     /**
      *
@@ -489,7 +552,7 @@ export declare class UsersApi extends BaseAPI {
      * @param id
      */
     getUserComments(params: {
-        id: string;
+        "id": string;
     }, options?: any): Promise<CmsComment>;
 }
 /**
@@ -497,15 +560,15 @@ export declare class UsersApi extends BaseAPI {
  */
 export declare const UsersApiFactory: (fetch?: FetchAPI, basePath?: string) => {
     createUser(params: {
-        body: CmsCreateUserRequest;
+        "body": CmsCreateUserRequest;
     }, options?: any): Promise<CmsUserRequest>;
     deleteUser(params: {
-        id: string;
+        "id": string;
     }, options?: any): Promise<ProtobufEmpty>;
     getUser(params: {
-        id: string;
+        "id": string;
     }, options?: any): Promise<CmsUser>;
     getUserComments(params: {
-        id: string;
+        "id": string;
     }, options?: any): Promise<CmsComment>;
 };
