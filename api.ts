@@ -126,16 +126,16 @@ export interface CmsUserRequest {
   id?: string;
 }
 
-export type CmsUserRole = 'UNKNOWN' | 'ADMIN' | 'USER';
+export type CmsUserRole = "UNKNOWN" | "ADMIN" | "USER";
 
 /**
  * Wrapper message for `bool`.  The JSON representation for `BoolValue` is JSON `true` and `false`.
  */
 export interface ProtobufBoolValue {
-  /**
-   * The bool value.
-   */
-  value?: boolean;
+    /**
+     * The bool value.
+     */
+    "value"?: boolean;
 }
 
 /**
@@ -187,6 +187,33 @@ export const AuthApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
+    /**
+     * 
+     * @summary Logout deactivates the provided access token
+     * @param body 
+     */
+    logout(params: {  "body": CmsAccessToken; }, options?: any): FetchArgs {
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling logout");
+        }
+        const baseUrl = `/auth/user/logout`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
+
+        let contentTypeHeader: Dictionary<string> = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 };
 
 /**
@@ -200,6 +227,23 @@ export const AuthApiFp = {
      */
     authUser(params: { "body": CmsAuthUserRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsAccessToken> {
         const fetchArgs = AuthApiFetchParamCreator.authUser(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Logout deactivates the provided access token
+     * @param body 
+     */
+    logout(params: { "body": CmsAccessToken;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
+        const fetchArgs = AuthApiFetchParamCreator.logout(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -224,6 +268,14 @@ export class AuthApi extends BaseAPI {
     authUser(params: {  "body": CmsAuthUserRequest; }, options?: any) {
         return AuthApiFp.authUser(params, options)(this.fetch, this.basePath);
     }
+    /**
+     * 
+     * @summary Logout deactivates the provided access token
+     * @param body 
+     */
+    logout(params: {  "body": CmsAccessToken; }, options?: any) {
+        return AuthApiFp.logout(params, options)(this.fetch, this.basePath);
+    }
 };
 
 /**
@@ -238,6 +290,14 @@ export const AuthApiFactory = function (fetch?: FetchAPI, basePath?: string) {
          */
         authUser(params: {  "body": CmsAuthUserRequest; }, options?: any) {
             return AuthApiFp.authUser(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Logout deactivates the provided access token
+         * @param body 
+         */
+        logout(params: {  "body": CmsAccessToken; }, options?: any) {
+            return AuthApiFp.logout(params, options)(fetch, basePath);
         },
     };
 };
@@ -1288,33 +1348,6 @@ export const SetupApiFactory = function (fetch?: FetchAPI, basePath?: string) {
 export const UsersApiFetchParamCreator = {
     /**
      * 
-     * @summary Create a user
-     * @param body 
-     */
-    createUser(params: {  "body": CmsCreateUserRequest; }, options?: any): FetchArgs {
-        // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling createUser");
-        }
-        const baseUrl = `/users`;
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
-
-        let contentTypeHeader: Dictionary<string> = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
-        }
-        if (contentTypeHeader) {
-            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
-        }
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * 
      * @summary Delete a user
      * @param id 
      */
@@ -1393,23 +1426,6 @@ export const UsersApiFetchParamCreator = {
 export const UsersApiFp = {
     /**
      * 
-     * @summary Create a user
-     * @param body 
-     */
-    createUser(params: { "body": CmsCreateUserRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUserRequest> {
-        const fetchArgs = UsersApiFetchParamCreator.createUser(params, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * 
      * @summary Delete a user
      * @param id 
      */
@@ -1467,14 +1483,6 @@ export const UsersApiFp = {
 export class UsersApi extends BaseAPI {
     /**
      * 
-     * @summary Create a user
-     * @param body 
-     */
-    createUser(params: {  "body": CmsCreateUserRequest; }, options?: any) {
-        return UsersApiFp.createUser(params, options)(this.fetch, this.basePath);
-    }
-    /**
-     * 
      * @summary Delete a user
      * @param id 
      */
@@ -1504,14 +1512,6 @@ export class UsersApi extends BaseAPI {
  */
 export const UsersApiFactory = function (fetch?: FetchAPI, basePath?: string) {
     return {
-        /**
-         * 
-         * @summary Create a user
-         * @param body 
-         */
-        createUser(params: {  "body": CmsCreateUserRequest; }, options?: any) {
-            return UsersApiFp.createUser(params, options)(fetch, basePath);
-        },
         /**
          * 
          * @summary Delete a user

@@ -79,7 +79,7 @@ export interface CmsUserPassword {
 export interface CmsUserRequest {
     id?: string;
 }
-export declare type CmsUserRole = 'UNKNOWN' | 'ADMIN' | 'USER';
+export declare type CmsUserRole = "UNKNOWN" | "ADMIN" | "USER";
 /**
  * Wrapper message for `bool`.  The JSON representation for `BoolValue` is JSON `true` and `false`.
  */
@@ -87,7 +87,7 @@ export interface ProtobufBoolValue {
     /**
      * The bool value.
      */
-    value?: boolean;
+    "value"?: boolean;
 }
 /**
  * service Foo {       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);     }  The JSON representation for `Empty` is empty JSON object `{}`.
@@ -110,6 +110,9 @@ export declare const AuthApiFetchParamCreator: {
     authUser(params: {
         "body": CmsAuthUserRequest;
     }, options?: any): FetchArgs;
+    logout(params: {
+        "body": CmsAccessToken;
+    }, options?: any): FetchArgs;
 };
 /**
  * AuthApi - functional programming interface
@@ -118,6 +121,9 @@ export declare const AuthApiFp: {
     authUser(params: {
         "body": CmsAuthUserRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsAccessToken>;
+    logout(params: {
+        "body": CmsAccessToken;
+    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty>;
 };
 /**
  * AuthApi - object-oriented interface
@@ -131,6 +137,14 @@ export declare class AuthApi extends BaseAPI {
     authUser(params: {
         "body": CmsAuthUserRequest;
     }, options?: any): Promise<CmsAccessToken>;
+    /**
+     *
+     * @summary Logout deactivates the provided access token
+     * @param body
+     */
+    logout(params: {
+        "body": CmsAccessToken;
+    }, options?: any): Promise<ProtobufEmpty>;
 }
 /**
  * AuthApi - factory interface
@@ -139,6 +153,9 @@ export declare const AuthApiFactory: (fetch?: FetchAPI, basePath?: string) => {
     authUser(params: {
         "body": CmsAuthUserRequest;
     }, options?: any): Promise<CmsAccessToken>;
+    logout(params: {
+        "body": CmsAccessToken;
+    }, options?: any): Promise<ProtobufEmpty>;
 };
 /**
  * CommentsApi - fetch parameter creator
@@ -488,9 +505,6 @@ export declare const SetupApiFactory: (fetch?: FetchAPI, basePath?: string) => {
  * UsersApi - fetch parameter creator
  */
 export declare const UsersApiFetchParamCreator: {
-    createUser(params: {
-        "body": CmsCreateUserRequest;
-    }, options?: any): FetchArgs;
     deleteUser(params: {
         "id": string;
     }, options?: any): FetchArgs;
@@ -505,9 +519,6 @@ export declare const UsersApiFetchParamCreator: {
  * UsersApi - functional programming interface
  */
 export declare const UsersApiFp: {
-    createUser(params: {
-        "body": CmsCreateUserRequest;
-    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUserRequest>;
     deleteUser(params: {
         "id": string;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty>;
@@ -522,14 +533,6 @@ export declare const UsersApiFp: {
  * UsersApi - object-oriented interface
  */
 export declare class UsersApi extends BaseAPI {
-    /**
-     *
-     * @summary Create a user
-     * @param body
-     */
-    createUser(params: {
-        "body": CmsCreateUserRequest;
-    }, options?: any): Promise<CmsUserRequest>;
     /**
      *
      * @summary Delete a user
@@ -559,9 +562,6 @@ export declare class UsersApi extends BaseAPI {
  * UsersApi - factory interface
  */
 export declare const UsersApiFactory: (fetch?: FetchAPI, basePath?: string) => {
-    createUser(params: {
-        "body": CmsCreateUserRequest;
-    }, options?: any): Promise<CmsUserRequest>;
     deleteUser(params: {
         "id": string;
     }, options?: any): Promise<ProtobufEmpty>;

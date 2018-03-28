@@ -59,6 +59,32 @@ exports.AuthApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
+    /**
+     *
+     * @summary Logout deactivates the provided access token
+     * @param body
+     */
+    logout: function (params, options) {
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling logout");
+        }
+        var baseUrl = "/auth/user/logout";
+        var urlObj = url.parse(baseUrl, true);
+        var fetchOptions = assign({}, { method: "POST" }, options);
+        var contentTypeHeader = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 };
 /**
  * AuthApi - functional programming interface
@@ -71,6 +97,26 @@ exports.AuthApiFp = {
      */
     authUser: function (params, options) {
         var fetchArgs = exports.AuthApiFetchParamCreator.authUser(params, options);
+        return function (fetch, basePath) {
+            if (fetch === void 0) { fetch = isomorphicFetch; }
+            if (basePath === void 0) { basePath = BASE_PATH; }
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then(function (response) {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     *
+     * @summary Logout deactivates the provided access token
+     * @param body
+     */
+    logout: function (params, options) {
+        var fetchArgs = exports.AuthApiFetchParamCreator.logout(params, options);
         return function (fetch, basePath) {
             if (fetch === void 0) { fetch = isomorphicFetch; }
             if (basePath === void 0) { basePath = BASE_PATH; }
@@ -101,6 +147,14 @@ var AuthApi = (function (_super) {
     AuthApi.prototype.authUser = function (params, options) {
         return exports.AuthApiFp.authUser(params, options)(this.fetch, this.basePath);
     };
+    /**
+     *
+     * @summary Logout deactivates the provided access token
+     * @param body
+     */
+    AuthApi.prototype.logout = function (params, options) {
+        return exports.AuthApiFp.logout(params, options)(this.fetch, this.basePath);
+    };
     return AuthApi;
 }(BaseAPI));
 exports.AuthApi = AuthApi;
@@ -117,6 +171,14 @@ exports.AuthApiFactory = function (fetch, basePath) {
          */
         authUser: function (params, options) {
             return exports.AuthApiFp.authUser(params, options)(fetch, basePath);
+        },
+        /**
+         *
+         * @summary Logout deactivates the provided access token
+         * @param body
+         */
+        logout: function (params, options) {
+            return exports.AuthApiFp.logout(params, options)(fetch, basePath);
         },
     };
 };
@@ -1205,32 +1267,6 @@ exports.SetupApiFactory = function (fetch, basePath) {
 exports.UsersApiFetchParamCreator = {
     /**
      *
-     * @summary Create a user
-     * @param body
-     */
-    createUser: function (params, options) {
-        // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling createUser");
-        }
-        var baseUrl = "/users";
-        var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "POST" }, options);
-        var contentTypeHeader = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
-        }
-        if (contentTypeHeader) {
-            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
-        }
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     *
      * @summary Delete a user
      * @param id
      */
@@ -1305,26 +1341,6 @@ exports.UsersApiFetchParamCreator = {
 exports.UsersApiFp = {
     /**
      *
-     * @summary Create a user
-     * @param body
-     */
-    createUser: function (params, options) {
-        var fetchArgs = exports.UsersApiFetchParamCreator.createUser(params, options);
-        return function (fetch, basePath) {
-            if (fetch === void 0) { fetch = isomorphicFetch; }
-            if (basePath === void 0) { basePath = BASE_PATH; }
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then(function (response) {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                }
-                else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     *
      * @summary Delete a user
      * @param id
      */
@@ -1394,14 +1410,6 @@ var UsersApi = (function (_super) {
     }
     /**
      *
-     * @summary Create a user
-     * @param body
-     */
-    UsersApi.prototype.createUser = function (params, options) {
-        return exports.UsersApiFp.createUser(params, options)(this.fetch, this.basePath);
-    };
-    /**
-     *
      * @summary Delete a user
      * @param id
      */
@@ -1433,14 +1441,6 @@ exports.UsersApi = UsersApi;
  */
 exports.UsersApiFactory = function (fetch, basePath) {
     return {
-        /**
-         *
-         * @summary Create a user
-         * @param body
-         */
-        createUser: function (params, options) {
-            return exports.UsersApiFp.createUser(params, options)(fetch, basePath);
-        },
         /**
          *
          * @summary Delete a user
