@@ -24,3 +24,4 @@
 
 generate.sh
 .gitignore
+package.json
