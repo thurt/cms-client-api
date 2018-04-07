@@ -15,10 +15,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var url = require('url');
-var isomorphicFetch = require('isomorphic-fetch');
-var assign = require('core-js/library/fn/object/assign');
-var BASE_PATH = 'https://learned-stone-189802.appspot.com/api'.replace(/\/+$/, '');
+var url = require("url");
+var isomorphicFetch = require("isomorphic-fetch");
+var assign = require("core-js/library/fn/object/assign");
+var BASE_PATH = "https://learned-stone-189802.appspot.com/api".replace(/\/+$/, "");
 var BaseAPI = (function () {
     function BaseAPI(fetch, basePath) {
         if (fetch === void 0) { fetch = isomorphicFetch; }
@@ -29,6 +29,7 @@ var BaseAPI = (function () {
     return BaseAPI;
 }());
 exports.BaseAPI = BaseAPI;
+;
 /**
  * AuthApi - fetch parameter creator
  */

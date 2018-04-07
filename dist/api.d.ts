@@ -11,75 +11,78 @@ export declare class BaseAPI {
     constructor(fetch?: FetchAPI, basePath?: string);
 }
 export interface CmsAccessToken {
-    access_token?: string;
-    token_type?: string;
-    expires_in?: number;
+    "accessToken"?: string;
+    "tokenType"?: string;
+    "expiresIn"?: number;
 }
 export interface CmsAuthUserRequest {
-    id?: string;
-    password?: string;
+    "id"?: string;
+    "password"?: string;
 }
 export interface CmsComment {
-    id?: number;
-    content?: string;
-    created?: string;
-    last_edited?: string;
-    user_id?: string;
-    post_id?: string;
+    "id"?: number;
+    "content"?: string;
+    "created"?: string;
+    "lastEdited"?: string;
+    "userId"?: string;
+    "postId"?: string;
 }
 export interface CmsCommentRequest {
-    id?: number;
+    "id"?: number;
 }
 export interface CmsCreateCommentRequest {
-    content?: string;
-    user_id?: string;
-    post_id?: number;
+    "content"?: string;
+    "userId"?: string;
+    "postId"?: number;
 }
 export interface CmsCreatePostRequest {
-    title?: string;
-    content?: string;
+    "title"?: string;
+    "content"?: string;
 }
 export interface CmsCreateUserRequest {
-    id?: string;
-    email?: string;
-    password?: string;
+    "id"?: string;
+    "email"?: string;
+    "password"?: string;
 }
 export interface CmsPost {
-    id?: number;
-    title?: string;
-    content?: string;
-    created?: string;
-    last_edited?: string;
-    published?: boolean;
-    slug?: string;
+    "id"?: number;
+    "title"?: string;
+    "content"?: string;
+    "created"?: string;
+    "lastEdited"?: string;
+    "published"?: boolean;
+    "slug"?: string;
 }
 export interface CmsPostRequest {
-    id?: number;
+    "id"?: number;
 }
 export interface CmsUpdateCommentRequest {
-    id?: number;
-    content?: string;
+    "id"?: number;
+    "content"?: string;
 }
 export interface CmsUpdatePostRequest {
-    id?: number;
-    title?: string;
-    content?: string;
-    published?: boolean;
+    "id"?: number;
+    "title"?: string;
+    "content"?: string;
+    "published"?: boolean;
 }
 export interface CmsUser {
-    id?: string;
-    email?: string;
-    created?: string;
-    last_active?: string;
-    role?: CmsUserRole;
+    "id"?: string;
+    "email"?: string;
+    "created"?: string;
+    "lastActive"?: string;
+    "role"?: CmsUserRole;
 }
 export interface CmsUserPassword {
-    password?: string;
+    "password"?: string;
 }
 export interface CmsUserRequest {
-    id?: string;
+    "id"?: string;
 }
 export declare type CmsUserRole = "UNKNOWN" | "ADMIN" | "USER";
+export interface CmsVerifyNewUserRequest {
+    "token"?: string;
+}
 /**
  * Wrapper message for `bool`.  The JSON representation for `BoolValue` is JSON `true` and `false`.
  */
@@ -410,7 +413,7 @@ export declare const RegisterApiFetchParamCreator: {
         "body": CmsCreateUserRequest;
     }, options?: any): FetchArgs;
     verifyNewUser(params: {
-        "body": ProtobufEmpty;
+        "body": CmsVerifyNewUserRequest;
     }, options?: any): FetchArgs;
 };
 /**
@@ -421,7 +424,7 @@ export declare const RegisterApiFp: {
         "body": CmsCreateUserRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty>;
     verifyNewUser(params: {
-        "body": ProtobufEmpty;
+        "body": CmsVerifyNewUserRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUserRequest>;
 };
 /**
@@ -442,7 +445,7 @@ export declare class RegisterApi extends BaseAPI {
      * @param body
      */
     verifyNewUser(params: {
-        "body": ProtobufEmpty;
+        "body": CmsVerifyNewUserRequest;
     }, options?: any): Promise<CmsUserRequest>;
 }
 /**
@@ -453,7 +456,7 @@ export declare const RegisterApiFactory: (fetch?: FetchAPI, basePath?: string) =
         "body": CmsCreateUserRequest;
     }, options?: any): Promise<ProtobufEmpty>;
     verifyNewUser(params: {
-        "body": ProtobufEmpty;
+        "body": CmsVerifyNewUserRequest;
     }, options?: any): Promise<CmsUserRequest>;
 };
 /**
