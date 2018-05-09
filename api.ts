@@ -83,7 +83,6 @@ export interface CmsPost {
     "content"?: string;
     "created"?: string;
     "lastEdited"?: string;
-    "published"?: boolean;
     "slug"?: string;
 }
 
@@ -748,14 +747,76 @@ export const PostsApiFetchParamCreator = {
     /**
      * 
      * @summary Get all posts
-     * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
      */
-    getPosts(params: {  "includeUnPublished"?: boolean; }, options?: any): FetchArgs {
+    getPosts(options?: any): FetchArgs {
         const baseUrl = `/posts`;
         let urlObj = url.parse(baseUrl, true);
-        urlObj.query = assign({}, urlObj.query, {
-            "includeUnPublished": params["includeUnPublished"],
-        });
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
+
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Get an unpublished post
+     * @param id 
+     */
+    getUnpublishedPost(params: {  "id": number; }, options?: any): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling getUnpublishedPost");
+        }
+        const baseUrl = `/unpublished-posts/{id}`
+            .replace(`{${"id"}}`, `${ params["id"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
+
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Get an unpublished post (by slug)
+     * @param slug 
+     */
+    getUnpublishedPostBySlug(params: {  "slug": string; }, options?: any): FetchArgs {
+        // verify required parameter "slug" is set
+        if (params["slug"] == null) {
+            throw new Error("Missing required parameter slug when calling getUnpublishedPostBySlug");
+        }
+        const baseUrl = `/unpublished-posts/slug/{slug}`
+            .replace(`{${"slug"}}`, `${ params["slug"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
+
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     * 
+     * @summary Get all unpublished posts
+     */
+    getUnpublishedPosts(options?: any): FetchArgs {
+        const baseUrl = `/unpublished-posts`;
+        let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
         let contentTypeHeader: Dictionary<string> = {};
@@ -894,10 +955,59 @@ export const PostsApiFp = {
     /**
      * 
      * @summary Get all posts
-     * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
      */
-    getPosts(params: { "includeUnPublished"?: boolean;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost> {
-        const fetchArgs = PostsApiFetchParamCreator.getPosts(params, options);
+    getPosts(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost> {
+        const fetchArgs = PostsApiFetchParamCreator.getPosts(options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Get an unpublished post
+     * @param id 
+     */
+    getUnpublishedPost(params: { "id": number;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost> {
+        const fetchArgs = PostsApiFetchParamCreator.getUnpublishedPost(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Get an unpublished post (by slug)
+     * @param slug 
+     */
+    getUnpublishedPostBySlug(params: { "slug": string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost> {
+        const fetchArgs = PostsApiFetchParamCreator.getUnpublishedPostBySlug(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     * 
+     * @summary Get all unpublished posts
+     */
+    getUnpublishedPosts(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost> {
+        const fetchArgs = PostsApiFetchParamCreator.getUnpublishedPosts(options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -975,10 +1085,32 @@ export class PostsApi extends BaseAPI {
     /**
      * 
      * @summary Get all posts
-     * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
      */
-    getPosts(params: {  "includeUnPublished"?: boolean; }, options?: any) {
-        return PostsApiFp.getPosts(params, options)(this.fetch, this.basePath);
+    getPosts(options?: any) {
+        return PostsApiFp.getPosts(options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Get an unpublished post
+     * @param id 
+     */
+    getUnpublishedPost(params: {  "id": number; }, options?: any) {
+        return PostsApiFp.getUnpublishedPost(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Get an unpublished post (by slug)
+     * @param slug 
+     */
+    getUnpublishedPostBySlug(params: {  "slug": string; }, options?: any) {
+        return PostsApiFp.getUnpublishedPostBySlug(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Get all unpublished posts
+     */
+    getUnpublishedPosts(options?: any) {
+        return PostsApiFp.getUnpublishedPosts(options)(this.fetch, this.basePath);
     }
     /**
      * 
@@ -1039,10 +1171,32 @@ export const PostsApiFactory = function (fetch?: FetchAPI, basePath?: string) {
         /**
          * 
          * @summary Get all posts
-         * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
          */
-        getPosts(params: {  "includeUnPublished"?: boolean; }, options?: any) {
-            return PostsApiFp.getPosts(params, options)(fetch, basePath);
+        getPosts(options?: any) {
+            return PostsApiFp.getPosts(options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Get an unpublished post
+         * @param id 
+         */
+        getUnpublishedPost(params: {  "id": number; }, options?: any) {
+            return PostsApiFp.getUnpublishedPost(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Get an unpublished post (by slug)
+         * @param slug 
+         */
+        getUnpublishedPostBySlug(params: {  "slug": string; }, options?: any) {
+            return PostsApiFp.getUnpublishedPostBySlug(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Get all unpublished posts
+         */
+        getUnpublishedPosts(options?: any) {
+            return PostsApiFp.getUnpublishedPosts(options)(fetch, basePath);
         },
         /**
          * 
