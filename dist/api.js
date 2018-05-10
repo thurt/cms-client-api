@@ -638,14 +638,73 @@ exports.PostsApiFetchParamCreator = {
     /**
      *
      * @summary Get all posts
-     * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
      */
-    getPosts: function (params, options) {
+    getPosts: function (options) {
         var baseUrl = "/posts";
         var urlObj = url.parse(baseUrl, true);
-        urlObj.query = assign({}, urlObj.query, {
-            "includeUnPublished": params["includeUnPublished"],
-        });
+        var fetchOptions = assign({}, { method: "GET" }, options);
+        var contentTypeHeader = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     *
+     * @summary Get an unpublished post
+     * @param id
+     */
+    getUnpublishedPost: function (params, options) {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling getUnpublishedPost");
+        }
+        var baseUrl = "/unpublished-posts/{id}"
+            .replace("{" + "id" + "}", "" + params["id"]);
+        var urlObj = url.parse(baseUrl, true);
+        var fetchOptions = assign({}, { method: "GET" }, options);
+        var contentTypeHeader = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     *
+     * @summary Get an unpublished post (by slug)
+     * @param slug
+     */
+    getUnpublishedPostBySlug: function (params, options) {
+        // verify required parameter "slug" is set
+        if (params["slug"] == null) {
+            throw new Error("Missing required parameter slug when calling getUnpublishedPostBySlug");
+        }
+        var baseUrl = "/unpublished-posts/slug/{slug}"
+            .replace("{" + "slug" + "}", "" + params["slug"]);
+        var urlObj = url.parse(baseUrl, true);
+        var fetchOptions = assign({}, { method: "GET" }, options);
+        var contentTypeHeader = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     *
+     * @summary Get all unpublished posts
+     */
+    getUnpublishedPosts: function (options) {
+        var baseUrl = "/unpublished-posts";
+        var urlObj = url.parse(baseUrl, true);
         var fetchOptions = assign({}, { method: "GET" }, options);
         var contentTypeHeader = {};
         if (contentTypeHeader) {
@@ -672,6 +731,38 @@ exports.PostsApiFetchParamCreator = {
             throw new Error("Missing required parameter body when calling updatePost");
         }
         var baseUrl = "/posts/{id}"
+            .replace("{" + "id" + "}", "" + params["id"]);
+        var urlObj = url.parse(baseUrl, true);
+        var fetchOptions = assign({}, { method: "PUT" }, options);
+        var contentTypeHeader = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /**
+     *
+     * @summary Update a unpublished post
+     * @param id
+     * @param body
+     */
+    updateUnpublishedPost: function (params, options) {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling updateUnpublishedPost");
+        }
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling updateUnpublishedPost");
+        }
+        var baseUrl = "/unpublished-posts/{id}"
             .replace("{" + "id" + "}", "" + params["id"]);
         var urlObj = url.parse(baseUrl, true);
         var fetchOptions = assign({}, { method: "PUT" }, options);
@@ -796,10 +887,68 @@ exports.PostsApiFp = {
     /**
      *
      * @summary Get all posts
-     * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
      */
-    getPosts: function (params, options) {
-        var fetchArgs = exports.PostsApiFetchParamCreator.getPosts(params, options);
+    getPosts: function (options) {
+        var fetchArgs = exports.PostsApiFetchParamCreator.getPosts(options);
+        return function (fetch, basePath) {
+            if (fetch === void 0) { fetch = isomorphicFetch; }
+            if (basePath === void 0) { basePath = BASE_PATH; }
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then(function (response) {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     *
+     * @summary Get an unpublished post
+     * @param id
+     */
+    getUnpublishedPost: function (params, options) {
+        var fetchArgs = exports.PostsApiFetchParamCreator.getUnpublishedPost(params, options);
+        return function (fetch, basePath) {
+            if (fetch === void 0) { fetch = isomorphicFetch; }
+            if (basePath === void 0) { basePath = BASE_PATH; }
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then(function (response) {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     *
+     * @summary Get an unpublished post (by slug)
+     * @param slug
+     */
+    getUnpublishedPostBySlug: function (params, options) {
+        var fetchArgs = exports.PostsApiFetchParamCreator.getUnpublishedPostBySlug(params, options);
+        return function (fetch, basePath) {
+            if (fetch === void 0) { fetch = isomorphicFetch; }
+            if (basePath === void 0) { basePath = BASE_PATH; }
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then(function (response) {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     *
+     * @summary Get all unpublished posts
+     */
+    getUnpublishedPosts: function (options) {
+        var fetchArgs = exports.PostsApiFetchParamCreator.getUnpublishedPosts(options);
         return function (fetch, basePath) {
             if (fetch === void 0) { fetch = isomorphicFetch; }
             if (basePath === void 0) { basePath = BASE_PATH; }
@@ -821,6 +970,27 @@ exports.PostsApiFp = {
      */
     updatePost: function (params, options) {
         var fetchArgs = exports.PostsApiFetchParamCreator.updatePost(params, options);
+        return function (fetch, basePath) {
+            if (fetch === void 0) { fetch = isomorphicFetch; }
+            if (basePath === void 0) { basePath = BASE_PATH; }
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then(function (response) {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /**
+     *
+     * @summary Update a unpublished post
+     * @param id
+     * @param body
+     */
+    updateUnpublishedPost: function (params, options) {
+        var fetchArgs = exports.PostsApiFetchParamCreator.updateUnpublishedPost(params, options);
         return function (fetch, basePath) {
             if (fetch === void 0) { fetch = isomorphicFetch; }
             if (basePath === void 0) { basePath = BASE_PATH; }
@@ -886,10 +1056,32 @@ var PostsApi = (function (_super) {
     /**
      *
      * @summary Get all posts
-     * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
      */
-    PostsApi.prototype.getPosts = function (params, options) {
-        return exports.PostsApiFp.getPosts(params, options)(this.fetch, this.basePath);
+    PostsApi.prototype.getPosts = function (options) {
+        return exports.PostsApiFp.getPosts(options)(this.fetch, this.basePath);
+    };
+    /**
+     *
+     * @summary Get an unpublished post
+     * @param id
+     */
+    PostsApi.prototype.getUnpublishedPost = function (params, options) {
+        return exports.PostsApiFp.getUnpublishedPost(params, options)(this.fetch, this.basePath);
+    };
+    /**
+     *
+     * @summary Get an unpublished post (by slug)
+     * @param slug
+     */
+    PostsApi.prototype.getUnpublishedPostBySlug = function (params, options) {
+        return exports.PostsApiFp.getUnpublishedPostBySlug(params, options)(this.fetch, this.basePath);
+    };
+    /**
+     *
+     * @summary Get all unpublished posts
+     */
+    PostsApi.prototype.getUnpublishedPosts = function (options) {
+        return exports.PostsApiFp.getUnpublishedPosts(options)(this.fetch, this.basePath);
     };
     /**
      *
@@ -899,6 +1091,15 @@ var PostsApi = (function (_super) {
      */
     PostsApi.prototype.updatePost = function (params, options) {
         return exports.PostsApiFp.updatePost(params, options)(this.fetch, this.basePath);
+    };
+    /**
+     *
+     * @summary Update a unpublished post
+     * @param id
+     * @param body
+     */
+    PostsApi.prototype.updateUnpublishedPost = function (params, options) {
+        return exports.PostsApiFp.updateUnpublishedPost(params, options)(this.fetch, this.basePath);
     };
     return PostsApi;
 }(BaseAPI));
@@ -952,10 +1153,32 @@ exports.PostsApiFactory = function (fetch, basePath) {
         /**
          *
          * @summary Get all posts
-         * @param includeUnPublished when true, includes unpublished Posts in response (note: Authorization token with ADMIN role is required).
          */
-        getPosts: function (params, options) {
-            return exports.PostsApiFp.getPosts(params, options)(fetch, basePath);
+        getPosts: function (options) {
+            return exports.PostsApiFp.getPosts(options)(fetch, basePath);
+        },
+        /**
+         *
+         * @summary Get an unpublished post
+         * @param id
+         */
+        getUnpublishedPost: function (params, options) {
+            return exports.PostsApiFp.getUnpublishedPost(params, options)(fetch, basePath);
+        },
+        /**
+         *
+         * @summary Get an unpublished post (by slug)
+         * @param slug
+         */
+        getUnpublishedPostBySlug: function (params, options) {
+            return exports.PostsApiFp.getUnpublishedPostBySlug(params, options)(fetch, basePath);
+        },
+        /**
+         *
+         * @summary Get all unpublished posts
+         */
+        getUnpublishedPosts: function (options) {
+            return exports.PostsApiFp.getUnpublishedPosts(options)(fetch, basePath);
         },
         /**
          *
@@ -965,6 +1188,15 @@ exports.PostsApiFactory = function (fetch, basePath) {
          */
         updatePost: function (params, options) {
             return exports.PostsApiFp.updatePost(params, options)(fetch, basePath);
+        },
+        /**
+         *
+         * @summary Update a unpublished post
+         * @param id
+         * @param body
+         */
+        updateUnpublishedPost: function (params, options) {
+            return exports.PostsApiFp.updateUnpublishedPost(params, options)(fetch, basePath);
         },
     };
 };

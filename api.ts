@@ -99,7 +99,6 @@ export interface CmsUpdatePostRequest {
     "id"?: number;
     "title"?: string;
     "content"?: string;
-    "published"?: boolean;
 }
 
 export interface CmsUser {
@@ -861,6 +860,39 @@ export const PostsApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
+    /**
+     * 
+     * @summary Update a unpublished post
+     * @param id 
+     * @param body 
+     */
+    updateUnpublishedPost(params: {  "id": number; "body": CmsUpdatePostRequest; }, options?: any): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling updateUnpublishedPost");
+        }
+        // verify required parameter "body" is set
+        if (params["body"] == null) {
+            throw new Error("Missing required parameter body when calling updateUnpublishedPost");
+        }
+        const baseUrl = `/unpublished-posts/{id}`
+            .replace(`{${"id"}}`, `${ params["id"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "PUT" }, options);
+
+        let contentTypeHeader: Dictionary<string> = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["body"]) {
+            fetchOptions.body = JSON.stringify(params["body"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 };
 
 /**
@@ -1036,6 +1068,24 @@ export const PostsApiFp = {
             });
         };
     },
+    /**
+     * 
+     * @summary Update a unpublished post
+     * @param id 
+     * @param body 
+     */
+    updateUnpublishedPost(params: { "id": number; "body": CmsUpdatePostRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty> {
+        const fetchArgs = PostsApiFetchParamCreator.updateUnpublishedPost(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
 };
 
 /**
@@ -1120,6 +1170,15 @@ export class PostsApi extends BaseAPI {
      */
     updatePost(params: {  "id": number; "body": CmsUpdatePostRequest; }, options?: any) {
         return PostsApiFp.updatePost(params, options)(this.fetch, this.basePath);
+    }
+    /**
+     * 
+     * @summary Update a unpublished post
+     * @param id 
+     * @param body 
+     */
+    updateUnpublishedPost(params: {  "id": number; "body": CmsUpdatePostRequest; }, options?: any) {
+        return PostsApiFp.updateUnpublishedPost(params, options)(this.fetch, this.basePath);
     }
 };
 
@@ -1206,6 +1265,15 @@ export const PostsApiFactory = function (fetch?: FetchAPI, basePath?: string) {
          */
         updatePost(params: {  "id": number; "body": CmsUpdatePostRequest; }, options?: any) {
             return PostsApiFp.updatePost(params, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary Update a unpublished post
+         * @param id 
+         * @param body 
+         */
+        updateUnpublishedPost(params: {  "id": number; "body": CmsUpdatePostRequest; }, options?: any) {
+            return PostsApiFp.updateUnpublishedPost(params, options)(fetch, basePath);
         },
     };
 };
