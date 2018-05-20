@@ -55,6 +55,11 @@ export interface CmsPost {
 export interface CmsPostRequest {
     "id"?: number;
 }
+export interface CmsUnpublishedPost {
+    "post"?: CmsPost;
+    "published"?: boolean;
+    "lastPublished"?: string;
+}
 export interface CmsUpdateCommentRequest {
     "id"?: number;
     "content"?: string;
@@ -63,6 +68,7 @@ export interface CmsUpdatePostRequest {
     "id"?: number;
     "title"?: string;
     "content"?: string;
+    "published"?: boolean;
 }
 export interface CmsUser {
     "id"?: string;
@@ -290,10 +296,6 @@ export declare const PostsApiFetchParamCreator: {
         "id": number;
         "body": CmsUpdatePostRequest;
     }, options?: any): FetchArgs;
-    updateUnpublishedPost(params: {
-        "id": number;
-        "body": CmsUpdatePostRequest;
-    }, options?: any): FetchArgs;
 };
 /**
  * PostsApi - functional programming interface
@@ -317,16 +319,12 @@ export declare const PostsApiFp: {
     getPosts(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost>;
     getUnpublishedPost(params: {
         "id": number;
-    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost>;
+    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUnpublishedPost>;
     getUnpublishedPostBySlug(params: {
         "slug": string;
-    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost>;
-    getUnpublishedPosts(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsPost>;
+    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUnpublishedPost>;
+    getUnpublishedPosts(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CmsUnpublishedPost>;
     updatePost(params: {
-        "id": number;
-        "body": CmsUpdatePostRequest;
-    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty>;
-    updateUnpublishedPost(params: {
         "id": number;
         "body": CmsUpdatePostRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ProtobufEmpty>;
@@ -387,7 +385,7 @@ export declare class PostsApi extends BaseAPI {
      */
     getUnpublishedPost(params: {
         "id": number;
-    }, options?: any): Promise<CmsPost>;
+    }, options?: any): Promise<CmsUnpublishedPost>;
     /**
      *
      * @summary Get an unpublished post (by slug)
@@ -395,12 +393,12 @@ export declare class PostsApi extends BaseAPI {
      */
     getUnpublishedPostBySlug(params: {
         "slug": string;
-    }, options?: any): Promise<CmsPost>;
+    }, options?: any): Promise<CmsUnpublishedPost>;
     /**
      *
      * @summary Get all unpublished posts
      */
-    getUnpublishedPosts(options?: any): Promise<CmsPost>;
+    getUnpublishedPosts(options?: any): Promise<CmsUnpublishedPost>;
     /**
      *
      * @summary Update a post
@@ -408,16 +406,6 @@ export declare class PostsApi extends BaseAPI {
      * @param body
      */
     updatePost(params: {
-        "id": number;
-        "body": CmsUpdatePostRequest;
-    }, options?: any): Promise<ProtobufEmpty>;
-    /**
-     *
-     * @summary Update a unpublished post
-     * @param id
-     * @param body
-     */
-    updateUnpublishedPost(params: {
         "id": number;
         "body": CmsUpdatePostRequest;
     }, options?: any): Promise<ProtobufEmpty>;
@@ -444,16 +432,12 @@ export declare const PostsApiFactory: (fetch?: FetchAPI, basePath?: string) => {
     getPosts(options?: any): Promise<CmsPost>;
     getUnpublishedPost(params: {
         "id": number;
-    }, options?: any): Promise<CmsPost>;
+    }, options?: any): Promise<CmsUnpublishedPost>;
     getUnpublishedPostBySlug(params: {
         "slug": string;
-    }, options?: any): Promise<CmsPost>;
-    getUnpublishedPosts(options?: any): Promise<CmsPost>;
+    }, options?: any): Promise<CmsUnpublishedPost>;
+    getUnpublishedPosts(options?: any): Promise<CmsUnpublishedPost>;
     updatePost(params: {
-        "id": number;
-        "body": CmsUpdatePostRequest;
-    }, options?: any): Promise<ProtobufEmpty>;
-    updateUnpublishedPost(params: {
         "id": number;
         "body": CmsUpdatePostRequest;
     }, options?: any): Promise<ProtobufEmpty>;
